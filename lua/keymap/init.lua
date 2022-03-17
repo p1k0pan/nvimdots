@@ -5,6 +5,8 @@ local map_cmd = bind.map_cmd
 require("keymap.config")
 
 local plug_map = {
+    --whichkey ( press ',' first to start manually and this key to view all bind)
+    ["n|<leader><cr>"] = map_cr("WhichKey"):with_noremap():with_silent(),
 	-- Bufferline
 	["n|gb"] = map_cr("BufferLinePick"):with_noremap():with_silent(),
 	["n|<A-j>"] = map_cr("BufferLineCycleNext"):with_noremap():with_silent(),
@@ -34,21 +36,27 @@ local plug_map = {
 	["n|g]"] = map_cr("Lspsaga diagnostic_jump_prev"):with_noremap():with_silent(),
 	["n|gs"] = map_cr("Lspsaga signature_help"):with_noremap():with_silent(),
 	["n|gr"] = map_cr("Lspsaga rename"):with_noremap():with_silent(),
-	["n|K"] = map_cr("Lspsaga hover_doc"):with_noremap():with_silent(),
+	["n|M"] = map_cr("Lspsaga hover_doc"):with_noremap():with_silent(),
 	["n|<C-Up>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(-1)"):with_noremap():with_silent(),
 	["n|<C-Down>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(1)"):with_noremap():with_silent(),
 	["n|<leader>ca"] = map_cr("Lspsaga code_action"):with_noremap():with_silent(),
 	["v|<leader>ca"] = map_cu("Lspsaga range_code_action"):with_noremap():with_silent(),
 	["n|gd"] = map_cr("Lspsaga preview_definition"):with_noremap():with_silent(),
-	["n|gD"] = map_cr("lua vim.lsp.buf.definition()"):with_noremap():with_silent(),
-	["n|gh"] = map_cr("lua vim.lsp.buf.references()"):with_noremap():with_silent(),
+    ["n|gD"] = map_cmd("<cmd>lua vim.lsp.buf.declaration()<CR>"):with_noremap()
+        :with_silent(),
+    ["n|gi"] = map_cmd("<cmd>lua vim.lsp.buf.implementation()<CR>"):with_noremap()
+        :with_silent(),
+    ["n|gr"] = map_cmd("<cmd>lua vim.lsp.buf.references()<CR>"):with_noremap()
+        :with_silent(),
 	["n|<A-d>"] = map_cu('lua require("FTerm").toggle()'):with_noremap():with_silent(),
 	["t|<A-d>"] = map_cu([[<C-\><C-n><CMD>lua require("FTerm").toggle()]]):with_noremap():with_silent(),
 	["t|<A-S-d>"] = map_cu([[<C-\><C-n><CMD>lua require("FTerm").exit()]]):with_noremap():with_silent(),
-	["n|<Leader>g"] = map_cu("lua require('FTerm').run('gitui')"):with_noremap():with_silent(),
-	["n|<Leader>G"] = map_cu("Git"):with_noremap():with_silent(),
-	["n|gps"] = map_cr("G push"):with_noremap():with_silent(),
-	["n|gpl"] = map_cr("G pull"):with_noremap():with_silent(),
+	-- ["n|<Leader>g"] = map_cu("lua require('FTerm').run('gitui')"):with_noremap():with_silent(),
+	-- ["n|<Leader>G"] = map_cu("Git"):with_noremap():with_silent(),
+	-- ["n|gps"] = map_cr("G push"):with_noremap():with_silent(),
+	-- ["n|gpl"] = map_cr("G pull"):with_noremap():with_silent(),
+    -- Ranger with rnvimr
+    ["n|<C-o>"] = map_cr('RnvimrToggle'):with_noremap():with_silent(),
 	-- Plugin trouble
 	["n|gt"] = map_cr("TroubleToggle"):with_noremap():with_silent(),
 	["n|gR"] = map_cr("TroubleToggle lsp_references"):with_noremap():with_silent(),
@@ -57,7 +65,7 @@ local plug_map = {
 	["n|<leader>cq"] = map_cr("TroubleToggle quickfix"):with_noremap():with_silent(),
 	["n|<leader>cl"] = map_cr("TroubleToggle loclist"):with_noremap():with_silent(),
 	-- Plugin nvim-tree
-	["n|<C-n>"] = map_cr("NvimTreeToggle"):with_noremap():with_silent(),
+	["n|<C-p>"] = map_cr("NvimTreeToggle"):with_noremap():with_silent(),
 	["n|<Leader>nf"] = map_cr("NvimTreeFindFile"):with_noremap():with_silent(),
 	["n|<Leader>nr"] = map_cr("NvimTreeRefresh"):with_noremap():with_silent(),
 	-- Plugin Aerial
@@ -82,15 +90,15 @@ local plug_map = {
 	-- Plugin vim-eft
 	["n|f"] = map_cmd("v:lua.enhance_ft_move('f')"):with_expr(),
 	["n|F"] = map_cmd("v:lua.enhance_ft_move('F')"):with_expr(),
-	["n|t"] = map_cmd("v:lua.enhance_ft_move('t')"):with_expr(),
-	["n|T"] = map_cmd("v:lua.enhance_ft_move('T')"):with_expr(),
-	["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
+	["v|f"] = map_cmd("v:lua.enhance_ft_move('f')"):with_expr(),
+	["v|F"] = map_cmd("v:lua.enhance_ft_move('F')"):with_expr(),
+	-- ["n|t"] = map_cmd("v:lua.enhance_ft_move('t')"):with_expr(),
+	-- ["n|T"] = map_cmd("v:lua.enhance_ft_move('T')"):with_expr(),
+	-- ["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
 	-- Plugin Hop
-	["n|<leader>w"] = map_cu("HopWord"):with_noremap(),
-	["n|<leader>j"] = map_cu("HopLine"):with_noremap(),
-	["n|<leader>k"] = map_cu("HopLine"):with_noremap(),
-	["n|<leader>c"] = map_cu("HopChar1"):with_noremap(),
-	["n|<leader>cc"] = map_cu("HopChar2"):with_noremap(),
+    ["n|<leader>f"] = map_cr("HopWord"),
+    ["n|<leader>fl"] = map_cr("HopLine"),
+    ["n|<leader>fc"] = map_cr("HopChar1"),
 	-- Plugin EasyAlign
 	["n|ga"] = map_cmd("v:lua.enhance_align('nga')"):with_expr(),
 	["x|ga"] = map_cmd("v:lua.enhance_align('xga')"):with_expr(),
@@ -127,4 +135,47 @@ local plug_map = {
 	["c|Q"] = map_cu([[%SnipRun]]):with_silent(),
 }
 
+function mapCompileRun()
+    vim.api.nvim_set_keymap(
+        'n',
+        'r',
+        ':lua compileRun()<CR>a',
+        { noremap = false, silent = false }
+    );
+    vim.api.nvim_set_keymap(
+        'n',
+        '<leader>r',
+        ':lua compileRun()<CR>',
+        { noremap = false, silent = false }
+    );
+end
+
+function compileRun()
+    vim.api.nvim_command('set splitbelow')
+    vim.api.nvim_command(':sp')
+   local filetype = vim.bo.filetype
+    if filetype == 'python' then
+        print("this is python")
+        vim.api.nvim_command(':w | :term python3 %')
+    elseif filetype == 'go' then
+        print("this is go")
+        vim.api.nvim_command(':w | :term go run %')
+    elseif filetype== 'lua' then
+        print("this is lua")
+    elseif filetype== 'javascript' then
+        print("this is js")
+        vim.api.nvim_command(':w | :term node --trace-warnings %')
+    elseif filetype== 'sh' then
+        print("this is sh")
+        vim.api.nvim_command(':w | :term bash %')
+    elseif filetype== 'html' then
+        print("this is html")
+        vim.api.nvim_command(':w | :term firefox %')
+    else
+        return "nothing"
+    end
+    
+end
+
+mapCompileRun()
 bind.nvim_load_mapping(plug_map)
