@@ -375,4 +375,9 @@ function config.tabout()
 	})
 end
 
+function config.wildfire()
+    -- vim.g.wildfire_objects = {[["i'", "a'", 'i"','a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|"]]}
+    vim.g.wildfire_objects = {"i'", "a'", 'i"','a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|", "i`"}
+end
+
 return config

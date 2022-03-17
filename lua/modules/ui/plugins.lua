@@ -48,5 +48,9 @@ ui["wfxr/minimap.vim"] = {
 	opt = true,
 	event = "BufRead",
 }
+ui['kevinhwang91/rnvimr'] = {
+    opt = true,
+    cmd = 'RnvimrToggle'
+}
 
 return ui

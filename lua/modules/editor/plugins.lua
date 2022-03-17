@@ -1,6 +1,19 @@
 local editor = {}
 local conf = require("modules.editor.config")
 
+editor['mg979/vim-visual-multi'] = {
+
+}
+editor['gcmt/wildfire.vim'] = {
+    opt = false,
+    config = conf.wildfire
+}
+editor["blackCauldron7/surround.nvim"] = {
+    opt = false,
+    config = function()
+        require"surround".setup {mappings_style = "surround"}
+    end
+}
 editor["junegunn/vim-easy-align"] = { opt = true, cmd = "EasyAlign" }
 editor["itchyny/vim-cursorword"] = {
 	opt = true,
