@@ -2,7 +2,7 @@ local editor = {}
 local conf = require("modules.editor.config")
 
 editor['mg979/vim-visual-multi'] = {
-
+	opt = false
 }
 editor['gcmt/wildfire.vim'] = {
     opt = false,
