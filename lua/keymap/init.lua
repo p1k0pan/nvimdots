@@ -29,7 +29,7 @@ local plug_map = {
 	["n|<leader>pu"] = map_cr("PackerUpdate"):with_silent():with_noremap():with_nowait(),
 	["n|<leader>pi"] = map_cr("PackerInstall"):with_silent():with_noremap():with_nowait(),
 	["n|<leader>pc"] = map_cr("PackerClean"):with_silent():with_noremap():with_nowait(),
-	-- Lsp mapp work when insertenter and lsp start
+	-- Lsp map work when insertenter and lsp start
 	["n|<leader>li"] = map_cr("LspInfo"):with_noremap():with_silent():with_nowait(),
 	["n|<leader>lr"] = map_cr("LspRestart"):with_noremap():with_silent():with_nowait(),
 	["n|g["] = map_cr("Lspsaga diagnostic_jump_next"):with_noremap():with_silent(),
@@ -75,6 +75,8 @@ local plug_map = {
 	-- Plugin Minimap
 	["n|<A-n>"] = map_cr("MinimapToggle"):with_noremap():with_silent(),
 	["n|<A-r>"] = map_cr("MinimapRefresh"):with_noremap():with_silent(),
+	-- Plugin Undotree
+	["n|<Leader>u"] = map_cr("UndotreeToggle"):with_noremap():with_silent(),
 	-- Plugin Telescope
 	["n|<Leader>fp"] = map_cu("lua require('telescope').extensions.project.project{}"):with_noremap():with_silent(),
 	["n|<Leader>fr"] = map_cu("lua require('telescope').extensions.frecency.frecency{}"):with_noremap():with_silent(),
@@ -135,6 +137,9 @@ local plug_map = {
 	["n|<leader>dl"] = map_cr("lua require('dap').repl.open()"):with_noremap():with_silent(),
 	["o|m"] = map_cu([[lua require('tsht').nodes()]]):with_silent(),
 	["c|Q"] = map_cu([[%SnipRun]]):with_silent(),
+	-- Plugin Tabout
+	["i|<A-l>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
+	["i|<A-h>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
 }
 
 function mapCompileRun()
