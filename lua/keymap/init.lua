@@ -181,6 +181,9 @@ function compileRun()
     elseif filetype== 'html' then
         print("this is html")
         vim.api.nvim_command(':w | :term firefox %')
+    elseif filetype== 'java' then
+        print("this is html")
+        vim.api.nvim_command(':w | :term javac % | java %')
     else
         return "nothing"
     end
