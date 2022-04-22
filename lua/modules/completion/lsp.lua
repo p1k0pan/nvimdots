@@ -5,6 +5,7 @@ vim.cmd([[packadd lsp_signature.nvim]])
 vim.cmd([[packadd lspsaga.nvim]])
 vim.cmd([[packadd cmp-nvim-lsp]])
 vim.cmd([[packadd aerial.nvim]])
+vim.cmd([[packadd vim-illuminate]])
 
 local nvim_lsp = require("lspconfig")
 local saga = require("lspsaga")
@@ -63,6 +64,7 @@ local function custom_attach(client)
 		handler_opts = { "double" },
 	})
 	require("aerial").on_attach(client)
+	require("illuminate").on_attach(client)
 
 	if client.resolved_capabilities.document_formatting then
 		vim.cmd([[augroup Format]])
@@ -110,6 +112,10 @@ local enhance_server_opts = {
 				telemetry = { enable = false },
 			},
 		}
+		opts.on_attach = function(client)
+			client.resolved_capabilities.document_formatting = false
+			custom_attach(client)
+		end
 	end,
 	["clangd"] = function(opts)
 		opts.args = {
@@ -261,7 +267,10 @@ nvim_lsp.html.setup({
 	single_file_support = true,
 	flags = { debounce_text_changes = 500 },
 	capabilities = capabilities,
-	on_attach = custom_attach,
+	on_attach = function(client)
+		client.resolved_capabilities.document_formatting = false
+		custom_attach(client)
+	end,
 })
 
 local efmls = require("efmls-configs")
