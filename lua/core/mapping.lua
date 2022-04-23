@@ -58,6 +58,8 @@ local def_map = {
     -- ["i|<A-l>"] = map_cmd('<Right>'):with_noremap(),
     ["i|<A-H>"] = map_cmd('<ESC>^i'):with_noremap(),
     ["i|<A-L>"] = map_cmd('<ESC>^A'):with_noremap(),
+	["c|<A-h>"] = map_cmd("<Left>"):with_noremap(),
+	["c|<A-l>"] = map_cmd("<Right>"):with_noremap(),
     ["i|<C-s>"] = map_cmd('<Esc>:w<CR>'),
     ["i|<C-q>"] = map_cmd('<Esc>:wq<CR>'),
 	-- command line
