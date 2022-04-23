@@ -8,7 +8,7 @@ editor['gcmt/wildfire.vim'] = {
     opt = false,
     config = conf.wildfire
 }
-editor["blackCauldron7/surround.nvim"] = {
+editor["ur4ltz/surround.nvim"] = {
     opt = false,
     config = function()
         require"surround".setup {mappings_style = "surround"}
