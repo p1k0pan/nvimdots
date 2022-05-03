@@ -73,8 +73,8 @@ local plug_map = {
 	-- Plugin Aerial
 	["n|<A-t>"] = map_cr("AerialToggle! right"):with_noremap():with_silent(),
 	-- Plugin Minimap
-	-- ["n|<A-n>"] = map_cr("MinimapToggle"):with_noremap():with_silent(),
-	-- ["n|<A-r>"] = map_cr("MinimapRefresh"):with_noremap():with_silent(),
+	["n|<A-n>"] = map_cr("MinimapToggle"):with_noremap():with_silent(),
+	["n|<A-r>"] = map_cr("MinimapRefresh"):with_noremap():with_silent(),
 	-- Plugin Undotree
 	["n|<Leader>u"] = map_cr("UndotreeToggle"):with_noremap():with_silent(),
 	-- Plugin Telescope
@@ -138,8 +138,8 @@ local plug_map = {
 	["o|m"] = map_cu([[lua require('tsht').nodes()]]):with_silent(),
 	["c|Q"] = map_cu([[%SnipRun]]):with_silent(),
 	-- Plugin Tabout
-	["i|<A-n>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
-	["i|<A-m>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
+	-- ["i|<A-l>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
+	-- ["i|<A-h>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
 	-- Plugin Diffview
 	["n|<leader>D"] = map_cr("DiffviewOpen"):with_silent():with_noremap(),
 	["n|<leader><leader>D"] = map_cr("DiffviewClose"):with_silent():with_noremap(),

@@ -54,8 +54,8 @@ local def_map = {
     ["n|gmi"] = map_cmd(":e ~/.config/nvim/lua/keymap/init.lua<CR>"),
     ["n|<leader>sw"] = map_cr("set wrap"),
 	-- Insert
-    -- ["i|<A-h>"] = map_cmd('<Left>'):with_noremap(),
-    -- ["i|<A-l>"] = map_cmd('<Right>'):with_noremap(),
+    ["i|<A-h>"] = map_cmd('<Left>'):with_noremap(),
+    ["i|<A-l>"] = map_cmd('<Right>'):with_noremap(),
     ["i|<A-H>"] = map_cmd('<ESC>^i'):with_noremap(),
     ["i|<A-L>"] = map_cmd('<ESC>^A'):with_noremap(),
 	["c|<A-h>"] = map_cmd("<Left>"):with_noremap(),
