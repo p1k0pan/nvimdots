@@ -342,8 +342,8 @@ end
 
 function config.tabout()
 	require("tabout").setup({
-		tabkey = "<A-l>",
-		backwards_tabkey = "<A-h>",
+		tabkey = "<A-m>",
+		backwards_tabkey = "<A-n>",
 		ignore_beginning = false,
 		act_as_tab = true,
 		enable_backward = true,
