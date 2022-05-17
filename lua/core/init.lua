@@ -53,8 +53,8 @@ local leader_map = function()
 end
 
 local neovide_config = function()
-	vim.cmd([[set guifont=JetBrainsMono\ Nerd\ Font:h12]])
-	vim.g.neovide_refresh_rate = 60
+	vim.cmd([[set guifont=JetBrainsMono\ Nerd\ Font:h15]])
+	vim.g.neovide_refresh_rate = 120
 	vim.g.neovide_cursor_vfx_mode = "railgun"
 	vim.g.neovide_no_idle = true
 	vim.g.neovide_cursor_animation_length = 0.03
@@ -64,70 +64,6 @@ local neovide_config = function()
 	vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
 	vim.g.neovide_cursor_vfx_particle_speed = 20.0
 	vim.g.neovide_cursor_vfx_particle_density = 5.0
-end
-
-local dashboard_config = function()
-	vim.g.dashboard_footer_icon = "🐬 "
-	vim.g.dashboard_default_executive = "telescope"
-
-	vim.g.dashboard_custom_header = {
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣡⣾⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣟⠻⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⡿⢫⣷⣿⣿⣿⣿⣿⣿⣿⣾⣯⣿⡿⢧⡚⢷⣌⣽⣿⣿⣿⣿⣿⣶⡌⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⠇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣇⣘⠿⢹⣿⣿⣿⣿⣿⣻⢿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⡟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣻⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⡇⠀⣬⠏⣿⡇⢻⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⠀⠈⠁⠀⣿⡇⠘⡟⣿⣿⣿⣿⣿⣿⣿⣿⡏⠿⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⡏⠀⠀⠐⠀⢻⣇⠀⠀⠹⣿⣿⣿⣿⣿⣿⣩⡶⠼⠟⠻⠞⣿⡈⠻⣟⢻⣿⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⢿⠀⡆⠀⠘⢿⢻⡿⣿⣧⣷⢣⣶⡃⢀⣾⡆⡋⣧⠙⢿⣿⣿⣟⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⡥⠂⡐⠀⠁⠑⣾⣿⣿⣾⣿⣿⣿⡿⣷⣷⣿⣧⣾⣿⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⡿⣿⣍⡴⠆⠀⠀⠀⠀⠀⠀⠀⠀⣼⣄⣀⣷⡄⣙⢿⣿⣿⣿⣿⣯⣶⣿⣿⢟⣾⣿⣿⢡⣿⣿⣿⣿⣿]],
-		[[⣿⡏⣾⣿⣿⣿⣷⣦⠀⠀⠀⢀⡀⠀⠀⠠⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⣡⣾⣿⣿⢏⣾⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⣿⣿⣿⣿⣿⡴⠀⠀⠀⠀⠀⠠⠀⠰⣿⣿⣿⣷⣿⠿⠿⣿⣿⣭⡶⣫⠔⢻⢿⢇⣾⣿⣿⣿⣿⣿⣿]],
-		[[⣿⣿⣿⡿⢫⣽⠟⣋⠀⠀⠀⠀⣶⣦⠀⠀⠀⠈⠻⣿⣿⣿⣾⣿⣿⣿⣿⡿⣣⣿⣿⢸⣾⣿⣿⣿⣿⣿⣿⣿]],
-		[[⡿⠛⣹⣶⣶⣶⣾⣿⣷⣦⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠉⠛⠻⢿⣿⡿⠫⠾⠿⠋⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⡆⣠⢀⣴⣏⡀⠀⠀⠀⠉⠀⠀⢀⣠⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⠿⠛⠛⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣯⣟⠷⢷⣿⡿⠋⠀⠀⠀⠀⣵⡀⢠⡿⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
-		[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⢿⣿⣿⠂⠀⠀⠀⠀⠀⢀⣽⣿⣿⣿⣿⣿⣿⣿⣍⠛⠿⣿⣿⣿⣿⣿⣿]],
-	}
-
-	vim.g.dashboard_custom_section = {
-		change_colorscheme = {
-			description = { " Scheme change              comma s c " },
-			command = "DashboardChangeColorscheme",
-		},
-		find_frecency = {
-			description = { " File frecency              comma f r " },
-			command = "Telescope frecency",
-		},
-		find_history = {
-			description = { " File history               comma f e " },
-			command = "DashboardFindHistory",
-		},
-		find_project = {
-			description = { " Project find               comma f p " },
-			command = "Telescope project",
-		},
-		find_file = {
-			description = { " File find                  comma f f " },
-			command = "DashboardFindFile",
-		},
-		file_new = {
-			description = { " File new                   comma f n " },
-			command = "DashboardNewFile",
-		},
-		find_word = {
-			description = { " Word find                  comma f w " },
-			command = "DashboardFindWord",
-		},
-	}
-end
-
-local minimap_config = function()
-	vim.g.minimap_auto_start = 0
-	vim.g.minimap_block_filetypes = { "aerial", "NvimTree" }
-	vim.g.minimap_git_colors = 1
 end
 
 local function check_conda()
@@ -162,8 +98,6 @@ local load_core = function()
 
 	pack.ensure_plugins()
 	neovide_config()
-	dashboard_config()
-	minimap_config()
 	check_conda()
 	-- clipboard_config()
 
@@ -173,6 +107,7 @@ local load_core = function()
 	require("core.event")
 	pack.load_compile()
 
+	-- vim.cmd([[set background=light]])
 	vim.cmd([[colorscheme catppuccin]])
 end
 

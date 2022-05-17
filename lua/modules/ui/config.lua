@@ -1,7 +1,110 @@
 local config = {}
 
+function config.alpha()
+	local alpha = require("alpha")
+	local dashboard = require("alpha.themes.dashboard")
+
+	dashboard.section.header.val = {
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣡⣾⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣟⠻⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⡿⢫⣷⣿⣿⣿⣿⣿⣿⣿⣾⣯⣿⡿⢧⡚⢷⣌⣽⣿⣿⣿⣿⣿⣶⡌⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⠇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣇⣘⠿⢹⣿⣿⣿⣿⣿⣻⢿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⡟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣻⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⡇⠀⣬⠏⣿⡇⢻⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⠀⠈⠁⠀⣿⡇⠘⡟⣿⣿⣿⣿⣿⣿⣿⣿⡏⠿⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡏⠀⠀⠐⠀⢻⣇⠀⠀⠹⣿⣿⣿⣿⣿⣿⣩⡶⠼⠟⠻⠞⣿⡈⠻⣟⢻⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⢿⠀⡆⠀⠘⢿⢻⡿⣿⣧⣷⢣⣶⡃⢀⣾⡆⡋⣧⠙⢿⣿⣿⣟⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⡥⠂⡐⠀⠁⠑⣾⣿⣿⣾⣿⣿⣿⡿⣷⣷⣿⣧⣾⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⡿⣿⣍⡴⠆⠀⠀⠀⠀⠀⠀⠀⠀⣼⣄⣀⣷⡄⣙⢿⣿⣿⣿⣿⣯⣶⣿⣿⢟⣾⣿⣿⢡⣿⣿⣿⣿⣿]],
+		[[⣿⡏⣾⣿⣿⣿⣷⣦⠀⠀⠀⢀⡀⠀⠀⠠⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⣡⣾⣿⣿⢏⣾⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⡴⠀⠀⠀⠀⠀⠠⠀⠰⣿⣿⣿⣷⣿⠿⠿⣿⣿⣭⡶⣫⠔⢻⢿⢇⣾⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⡿⢫⣽⠟⣋⠀⠀⠀⠀⣶⣦⠀⠀⠀⠈⠻⣿⣿⣿⣾⣿⣿⣿⣿⡿⣣⣿⣿⢸⣾⣿⣿⣿⣿⣿⣿⣿]],
+		[[⡿⠛⣹⣶⣶⣶⣾⣿⣷⣦⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠉⠛⠻⢿⣿⡿⠫⠾⠿⠋⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⡆⣠⢀⣴⣏⡀⠀⠀⠀⠉⠀⠀⢀⣠⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⠿⠛⠛⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣯⣟⠷⢷⣿⡿⠋⠀⠀⠀⠀⣵⡀⢠⡿⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⢿⣿⣿⠂⠀⠀⠀⠀⠀⢀⣽⣿⣿⣿⣿⣿⣿⣿⣍⠛⠿⣿⣿⣿⣿⣿⣿]],
+	}
+
+	local function button(sc, txt, leader_txt, keybind, keybind_opts)
+		local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<leader>")
+
+		local opts = {
+			position = "center",
+			shortcut = sc,
+			cursor = 5,
+			width = 50,
+			align_shortcut = "right",
+			hl_shortcut = "Keyword",
+		}
+
+		if nil == keybind then
+			keybind = sc_after
+		end
+		keybind_opts = vim.F.if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
+		opts.keymap = { "n", sc_after, keybind, keybind_opts }
+
+		local function on_press()
+			-- local key = vim.api.nvim_replace_termcodes(keybind .. '<Ignore>', true, false, true)
+			local key = vim.api.nvim_replace_termcodes(sc_after .. "<Ignore>", true, false, true)
+			vim.api.nvim_feedkeys(key, "t", false)
+		end
+
+		return {
+			type = "button",
+			val = txt,
+			on_press = on_press,
+			opts = opts,
+		}
+	end
+
+	local leader = "comma"
+	dashboard.section.buttons.val = {
+		button("comma s c", " Scheme change", leader, "<cmd>Telescope colorscheme<cr>"),
+		button("comma f r", " File frecency", leader, "<cmd>Telescope frecency<cr>"),
+		button("comma f e", " File history", leader, "<cmd>Telescope oldfiles<cr>"),
+		button("comma f p", " Project find", leader, "<cmd>Telescope project<cr>"),
+		button("comma f f", " File find", leader, "<cmd>Telescope find_files<cr>"),
+		button("comma f n", " File new", leader, "<cmd>enew<cr>"),
+		button("comma f w", " Word find", leader, "<cmd>Telescope live_grep<cr>"),
+	}
+	dashboard.section.buttons.opts.hl = "String"
+
+	local function footer()
+		local total_plugins = #vim.tbl_keys(packer_plugins)
+		return "   Have Fun with neovim"
+			.. "   v"
+			.. vim.version().major
+			.. "."
+			.. vim.version().minor
+			.. "."
+			.. vim.version().patch
+			.. "   "
+			.. total_plugins
+			.. " plugins"
+	end
+
+	dashboard.section.footer.val = footer()
+	dashboard.section.footer.opts.hl = "Function"
+
+	local head_butt_padding = 2
+	local occu_height = #dashboard.section.header.val + 2 * #dashboard.section.buttons.val + head_butt_padding
+	local header_padding = math.max(0, math.ceil((vim.fn.winheight("$") - occu_height) * 0.25))
+	local foot_butt_padding = 1
+
+	dashboard.config.layout = {
+		{ type = "padding", val = header_padding },
+		dashboard.section.header,
+		{ type = "padding", val = head_butt_padding },
+		dashboard.section.buttons,
+		{ type = "padding", val = foot_butt_padding },
+		dashboard.section.footer,
+	}
+
+	alpha.setup(dashboard.opts)
+end
+
 function config.edge()
-	vim.cmd([[set background=dark]])
 	vim.g.edge_style = "aura"
 	vim.g.edge_enable_italic = 1
 	vim.g.edge_disable_italic_comment = 1
@@ -16,12 +119,12 @@ function config.nord()
 	vim.g.nord_cursorline_transparent = true
 	vim.g.nord_disable_background = false
 	vim.g.nord_enable_sidebar_background = true
-	vim.g.nord_italic = false
+	vim.g.nord_italic = true
 end
 
 function config.catppuccin()
 	require("catppuccin").setup({
-		transparent_background = true,
+		transparent_background = false,
 		term_colors = true,
 		styles = {
 			comments = "italic",
@@ -69,6 +172,36 @@ function config.catppuccin()
 	})
 end
 
+function config.notify()
+	local notify = require("notify")
+	notify.setup({
+		---@usage Animation style one of { "fade", "slide", "fade_in_slide_out", "static" }
+		stages = "slide",
+		---@usage Function called when a new window is opened, use for changing win settings/config
+		on_open = nil,
+		---@usage Function called when a window is closed
+		on_close = nil,
+		---@usage timeout for notifications in ms, default 5000
+		timeout = 2000,
+		-- Render function for notifications. See notify-render()
+		render = "default",
+		---@usage highlight behind the window for stages that change opacity
+		background_colour = "Normal",
+		---@usage minimum width for notification windows
+		minimum_width = 50,
+		---@usage Icons for the different levels
+		icons = {
+			ERROR = "",
+			WARN = "",
+			INFO = "",
+			DEBUG = "",
+			TRACE = "✎",
+		},
+	})
+
+	vim.notify = notify
+end
+
 function config.lualine()
 	local gps = require("nvim-gps")
 
@@ -79,6 +212,7 @@ function config.lualine()
 			return ""
 		end
 	end
+
 	local mini_sections = {
 		lualine_a = {},
 		lualine_b = {},
@@ -94,10 +228,6 @@ function config.lualine()
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = { "location" },
-	}
-	local minimap = {
-		sections = mini_sections,
-		filetypes = { "minimap" },
 	}
 	local aerial = {
 		sections = mini_sections,
@@ -200,7 +330,6 @@ function config.lualine()
 			"nvim-tree",
 			"toggleterm",
 			"fugitive",
-			minimap,
 			aerial,
 			dapui_scopes,
 			dapui_breakpoints,
@@ -432,8 +561,6 @@ function config.gitsigns()
 end
 
 function config.indent_blankline()
-	vim.opt.termguicolors = true
-	vim.opt.list = true
 	require("indent_blankline").setup({
 		char = "│",
 		show_first_indent_level = true,
