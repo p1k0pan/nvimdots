@@ -2,8 +2,8 @@ local config = {}
 local sessions_dir = vim.fn.stdpath("data") .. "/sessions/"
 
 function config.nvim_treesitter()
-	vim.api.nvim_command("set foldmethod=expr")
-	vim.api.nvim_command("set foldexpr=nvim_treesitter#foldexpr()")
+	vim.api.nvim_set_option_value("foldmethod", "expr", {})
+	vim.api.nvim_set_option_value("foldexpr", "nvim_treesitter#foldexpr()", {})
 
 	require("nvim-treesitter.configs").setup({
 		ensure_installed = {
@@ -70,6 +70,51 @@ function config.nvim_treesitter()
 	for _, p in pairs(parsers) do
 		p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
 	end
+end
+
+function config.illuminate()
+	-- Use background for "Visual" as highlight for words. Change this behavior here!
+	if vim.api.nvim_get_hl_by_name("Visual", true).background then
+		local illuminate_bg = string.format("#%06x", vim.api.nvim_get_hl_by_name("Visual", true).background)
+
+		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = illuminate_bg })
+		vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = illuminate_bg })
+		vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = illuminate_bg })
+	end
+
+	require("illuminate").configure({
+		providers = {
+			"lsp",
+			"treesitter",
+			"regex",
+		},
+		delay = 100,
+		filetypes_denylist = {
+			"alpha",
+			"dashboard",
+			"DoomInfo",
+			"fugitive",
+			"help",
+			"norg",
+			"NvimTree",
+			"Outline",
+			"packer",
+			"toggleterm",
+		},
+		under_cursor = false,
+	})
+end
+
+function config.nvim_comment()
+	require("nvim_comment").setup({
+		hook = function()
+			require("ts_context_commentstring.internal").update_commentstring()
+		end,
+	})
+end
+
+function config.hop()
+	require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 end
 
 function config.matchup()
@@ -142,7 +187,13 @@ function config.toggleterm()
 				return vim.o.columns * 0.40
 			end
 		end,
-		open_mapping = [[<c-\>]],
+		on_open = function()
+			-- Prevent infinite calls from freezing neovim.
+			-- Only set these options specific to this terminal buffer.
+			vim.api.nvim_set_option_value("foldmethod", "manual", { scope = "local" })
+			vim.api.nvim_set_option_value("foldexpr", "0", { scope = "local" })
+		end,
+		open_mapping = false, -- [[<c-\>]],
 		hide_numbers = true, -- hide the number column in toggleterm buffers
 		shade_filetypes = {},
 		shade_terminals = false,
@@ -167,21 +218,23 @@ function config.dapui()
 			edit = "e",
 			repl = "r",
 		},
-		sidebar = {
-			elements = {
-				-- Provide as ID strings or tables with "id" and "size" keys
-				{
-					id = "scopes",
-					size = 0.25, -- Can be float or integer > 1
+		layouts = {
+			{
+				elements = {
+					-- Provide as ID strings or tables with "id" and "size" keys
+					{
+						id = "scopes",
+						size = 0.25, -- Can be float or integer > 1
+					},
+					{ id = "breakpoints", size = 0.25 },
+					{ id = "stacks", size = 0.25 },
+					{ id = "watches", size = 0.25 },
 				},
-				{ id = "breakpoints", size = 0.25 },
-				{ id = "stacks", size = 0.25 },
-				{ id = "watches", size = 00.25 },
+				size = 40,
+				position = "left",
 			},
-			size = 40,
-			position = "left",
+			{ elements = { "repl" }, size = 10, position = "bottom" },
 		},
-		tray = { elements = { "repl" }, size = 10, position = "bottom" },
 		floating = {
 			max_height = nil,
 			max_width = nil,
@@ -192,6 +245,7 @@ function config.dapui()
 end
 
 function config.dap()
+	vim.cmd([[packadd nvim-dap-ui]])
 	local dap = require("dap")
 	local dapui = require("dapui")
 
@@ -205,7 +259,14 @@ function config.dap()
 		dapui.close()
 	end
 
-	vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
+	-- We need to override nvim-dap's default highlight groups, AFTER requiring nvim-dap for catppuccin.
+	vim.api.nvim_set_hl(0, "DapStopped", { fg = "#ABE9B3" })
+
+	vim.fn.sign_define("DapBreakpoint", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapBreakpointCondition", { text = "ﳁ", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPoint", linehl = "", numhl = "" })
+	vim.fn.sign_define("DapStopped", { text = "", texthl = "DapStopped", linehl = "", numhl = "" })
 
 	dap.adapters.lldb = {
 		type = "executable",
@@ -255,7 +316,11 @@ function config.dap()
 			stdout:close()
 			handle:close()
 			if code ~= 0 then
-				print("dlv exited with code", code)
+				vim.notify(
+					string.format('"dlv" exited with code: %d, please check your configs for correctness.', code),
+					vim.log.levels.WARN,
+					{ title = "[go] DAP Warning!" }
+				)
 			end
 		end)
 		assert(handle, "Error running dlv: " .. tostring(pid_or_err))
@@ -380,6 +445,31 @@ function config.imselect()
 			\ }
 			]])
 	end
+end
+
+function config.better_escape()
+	require("better_escape").setup({
+		mapping = { "jk", "jj" }, -- a table with mappings to use
+		timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
+		clear_empty_lines = false, -- clear line after escaping if there is only whitespace
+		keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
+		-- example(recommended)
+		-- keys = function()
+		--   return vim.api.nvim_win_get_cursor(0)[2] > 1 and '<esc>l' or '<esc>'
+		-- end,
+	})
+end
+
+function config.accelerated_jk()
+	require("accelerated-jk").setup({
+		mode = "time_driven",
+		enable_deceleration = false,
+		acceleration_motions = {},
+		acceleration_limit = 150,
+		acceleration_table = { 7, 12, 17, 21, 24, 26, 28, 30 },
+		-- when 'enable_deceleration = true', 'deceleration_table = { {200, 3}, {300, 7}, {450, 11}, {600, 15}, {750, 21}, {900, 9999} }'
+		deceleration_table = { { 150, 9999 } },
+	})
 end
 
 return config

@@ -1,31 +1,30 @@
 local formatting = require("modules.completion.formatting")
 
-vim.cmd([[packadd nvim-lsp-installer]])
 vim.cmd([[packadd lsp_signature.nvim]])
 vim.cmd([[packadd lspsaga.nvim]])
 vim.cmd([[packadd cmp-nvim-lsp]])
-vim.cmd([[packadd aerial.nvim]])
-vim.cmd([[packadd vim-illuminate]])
+vim.cmd([[packadd nvim-navic]])
 
 local nvim_lsp = require("lspconfig")
-local saga = require("lspsaga")
-local lsp_installer = require("nvim-lsp-installer")
+local mason = require("mason")
+local mason_lsp = require("mason-lspconfig")
 
--- Override diagnostics symbol
-
-saga.init_lsp_saga({
-	error_sign = "",
-	warn_sign = "",
-	hint_sign = "",
-	infor_sign = "",
+mason.setup()
+mason_lsp.setup({
+	ensure_installed = {
+		"bash-language-server",
+		"efm",
+		"lua-language-server",
+		"clangd",
+		"gopls",
+		"pyright",
+	},
 })
-
-lsp_installer.setup({})
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
-local function custom_attach(client)
+local function custom_attach(client, bufnr)
 	require("lsp_signature").on_attach({
 		bind = true,
 		use_lspsaga = false,
@@ -35,8 +34,7 @@ local function custom_attach(client)
 		hi_parameter = "Search",
 		handler_opts = { "double" },
 	})
-	require("aerial").on_attach(client)
-	require("illuminate").on_attach(client)
+	require("nvim-navic").attach(client, bufnr)
 end
 
 local function switch_source_header_splitcmd(bufnr, splitcmd)
@@ -49,20 +47,24 @@ local function switch_source_header_splitcmd(bufnr, splitcmd)
 				error(tostring(err))
 			end
 			if not result then
-				print("Corresponding file can’t be determined")
+				vim.notify("Corresponding file can’t be determined", vim.log.levels.ERROR, { title = "LSP Error!" })
 				return
 			end
 			vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
 		end)
 	else
-		print("method textDocument/switchSourceHeader is not supported by any servers active on the current buffer")
+		vim.notify(
+			"Method textDocument/switchSourceHeader is not supported by any active server on this buffer",
+			vim.log.levels.ERROR,
+			{ title = "LSP Error!" }
+		)
 	end
 end
 
 -- Override server settings here
 
-for _, server in ipairs(lsp_installer.get_installed_servers()) do
-	if server.name == "gopls" then
+for _, server in ipairs(mason_lsp.get_installed_servers()) do
+	if server == "gopls" then
 		nvim_lsp.gopls.setup({
 			on_attach = custom_attach,
 			flags = { debounce_text_changes = 500 },
@@ -80,7 +82,7 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
 				},
 			},
 		})
-	elseif server.name == "sumneko_lua" then
+	elseif server == "sumneko_lua" then
 		nvim_lsp.sumneko_lua.setup({
 			capabilities = capabilities,
 			on_attach = custom_attach,
@@ -99,19 +101,25 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
 				},
 			},
 		})
-	elseif server.name == "clangd" then
+	elseif server == "clangd" then
 		local copy_capabilities = capabilities
 		copy_capabilities.offsetEncoding = { "utf-16" }
 		nvim_lsp.clangd.setup({
 			capabilities = copy_capabilities,
 			single_file_support = true,
 			on_attach = custom_attach,
-			args = {
+			cmd = {
+				"clangd",
 				"--background-index",
-				"-std=c++20",
 				"--pch-storage=memory",
+				-- You MUST set this arg ↓ to your clangd executable location (if not included)!
+				"--query-driver=/usr/bin/clang++,/usr/bin/**/clang-*,/bin/clang,/bin/clang++,/usr/bin/gcc,/usr/bin/g++",
 				"--clang-tidy",
-				"--suggest-missing-includes",
+				"--all-scopes-completion",
+				"--cross-file-rename",
+				"--completion-style=detailed",
+				"--header-insertion-decorators",
+				"--header-insertion=iwyu",
 			},
 			commands = {
 				ClangdSwitchSourceHeader = {
@@ -134,7 +142,7 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
 				},
 			},
 		})
-	elseif server.name == "jsonls" then
+	elseif server == "jsonls" then
 		nvim_lsp.jsonls.setup({
 			flags = { debounce_text_changes = 500 },
 			capabilities = capabilities,
@@ -192,7 +200,7 @@ for _, server in ipairs(lsp_installer.get_installed_servers()) do
 			},
 		})
 	else
-		nvim_lsp[server.name].setup({
+		nvim_lsp[server].setup({
 			capabilities = capabilities,
 			on_attach = custom_attach,
 		})
@@ -228,7 +236,6 @@ efmls.init({
 -- Require `efmls-configs-nvim`'s config here
 
 local vint = require("efmls-configs.linters.vint")
-local clangtidy = require("efmls-configs.linters.clang_tidy")
 local eslint = require("efmls-configs.linters.eslint")
 local flake8 = require("efmls-configs.linters.flake8")
 local shellcheck = require("efmls-configs.linters.shellcheck")
@@ -236,7 +243,7 @@ local shellcheck = require("efmls-configs.linters.shellcheck")
 local black = require("efmls-configs.formatters.black")
 local luafmt = require("efmls-configs.formatters.stylua")
 local clangfmt = {
-	formatCommand = "clang-format -style='{BasedOnStyle: LLVM}'",
+	formatCommand = "clang-format -style='{BasedOnStyle: LLVM, IndentWidth: 4}'",
 	formatStdin = true,
 }
 local prettier = require("efmls-configs.formatters.prettier")
@@ -261,8 +268,8 @@ flake8 = vim.tbl_extend("force", flake8, {
 efmls.setup({
 	vim = { formatter = vint },
 	lua = { formatter = luafmt },
-	c = { formatter = clangfmt, linter = clangtidy },
-	cpp = { formatter = clangfmt, linter = clangtidy },
+	c = { formatter = clangfmt },
+	cpp = { formatter = clangfmt },
 	python = { formatter = black },
 	vue = { formatter = prettier },
 	typescript = { formatter = prettier, linter = eslint },

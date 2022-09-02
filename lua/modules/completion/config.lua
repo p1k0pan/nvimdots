@@ -4,15 +4,84 @@ function config.nvim_lsp()
 	require("modules.completion.lsp")
 end
 
-function config.lightbulb()
-	vim.cmd([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]])
-end
+function config.lspsaga()
+	local function set_sidebar_icons()
+		-- Set icons for sidebar.
+		local diagnostic_icons = {
+			Error = " ",
+			Warn = " ",
+			Info = " ",
+			Hint = " ",
+		}
+		for type, icon in pairs(diagnostic_icons) do
+			local hl = "DiagnosticSign" .. type
+			vim.fn.sign_define(hl, { text = icon, texthl = hl })
+		end
+	end
 
-function config.aerial()
-	require("aerial").setup({})
+	local function get_palette()
+		if vim.g.colors_name == "catppuccin" then
+			-- If the colorscheme is catppuccin then use the palette.
+			return require("catppuccin.palettes").get_palette()
+		else
+			-- Default behavior: return lspsaga's default palette.
+			local palette = require("lspsaga.lspkind").colors
+			palette.peach = palette.orange
+			palette.flamingo = palette.orange
+			palette.rosewater = palette.yellow
+			palette.mauve = palette.violet
+			palette.sapphire = palette.blue
+			palette.maroon = palette.orange
+
+			return palette
+		end
+	end
+
+	set_sidebar_icons()
+
+	local colors = get_palette()
+
+	local saga = require("lspsaga")
+	saga.init_lsp_saga({
+		diagnostic_header = { " ", " ", "  ", " " },
+		custom_kind = {
+			File = { " ", colors.rosewater },
+			Module = { " ", colors.blue },
+			Namespace = { " ", colors.blue },
+			Package = { " ", colors.blue },
+			Class = { "ﴯ ", colors.yellow },
+			Method = { " ", colors.blue },
+			Property = { "ﰠ ", colors.teal },
+			Field = { " ", colors.teal },
+			Constructor = { " ", colors.sapphire },
+			Enum = { " ", colors.yellow },
+			Interface = { " ", colors.yellow },
+			Function = { " ", colors.blue },
+			Variable = { " ", colors.peach },
+			Constant = { " ", colors.peach },
+			String = { " ", colors.green },
+			Number = { " ", colors.peach },
+			Boolean = { " ", colors.peach },
+			Array = { " ", colors.peach },
+			Object = { " ", colors.yellow },
+			Key = { " ", colors.red },
+			Null = { "ﳠ ", colors.yellow },
+			EnumMember = { " ", colors.teal },
+			Struct = { " ", colors.yellow },
+			Event = { " ", colors.yellow },
+			Operator = { " ", colors.sky },
+			TypeParameter = { " ", colors.maroon },
+			-- ccls-specific icons.
+			TypeAlias = { " ", colors.green },
+			Parameter = { " ", colors.blue },
+			StaticMethod = { "ﴂ ", colors.peach },
+			Macro = { " ", colors.red },
+		},
+	})
 end
 
 function config.cmp()
+	-- vim.cmd([[packadd cmp-tabnine]])
 	local t = function(str)
 		return vim.api.nvim_replace_termcodes(str, true, true, true)
 	end
@@ -40,6 +109,8 @@ function config.cmp()
 		return false
 	end
 
+	local compare = require("cmp.config.compare")
+
 	local cmp = require("cmp")
 	cmp.setup({
 		window = {
@@ -52,14 +123,15 @@ function config.cmp()
 		},
 		sorting = {
 			comparators = {
-				cmp.config.compare.offset,
-				cmp.config.compare.exact,
-				cmp.config.compare.score,
+				-- require("cmp_tabnine.compare"),
+				compare.offset,
+				compare.exact,
+				compare.score,
 				require("cmp-under-comparator").under,
-				cmp.config.compare.kind,
-				cmp.config.compare.sort_text,
-				cmp.config.compare.length,
-				cmp.config.compare.order,
+				compare.kind,
+				compare.sort_text,
+				compare.length,
+				compare.order,
 			},
 		},
 		formatting = {
@@ -164,7 +236,7 @@ function config.cmp()
 			{ name = "orgmode" },
 			{ name = "buffer" },
 			{ name = "latex_symbols" },
-			-- {name = 'cmp_tabnine'}
+			-- { name = "cmp_tabnine" },
 		},
 	})
 end
@@ -174,6 +246,7 @@ function config.luasnip()
 	require("luasnip").config.set_config({
 		history = true,
 		updateevents = "TextChanged,TextChangedI",
+		delete_check_events = "TextChanged,InsertLeave",
 	})
 	require("luasnip.loaders.from_lua").lazy_load()
 	require("luasnip.loaders.from_vscode").lazy_load()
@@ -181,8 +254,8 @@ function config.luasnip()
 end
 
 -- function config.tabnine()
---     local tabnine = require('cmp_tabnine.config')
---     tabnine:setup({max_line = 1000, max_num_results = 20, sort = true})
+-- 	local tabnine = require("cmp_tabnine.config")
+-- 	tabnine:setup({ max_line = 1000, max_num_results = 20, sort = true })
 -- end
 
 function config.autopairs()
@@ -191,53 +264,59 @@ function config.autopairs()
 	-- If you want insert `(` after select function or method item
 	local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 	local cmp = require("cmp")
-	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({ map_char = { tex = "" } }))
-	cmp_autopairs.lisp[#cmp_autopairs.lisp + 1] = "racket"
+	local handlers = require("nvim-autopairs.completion.handlers")
+	cmp.event:on(
+		"confirm_done",
+		cmp_autopairs.on_confirm_done({
+			filetypes = {
+				-- "*" is an alias to all filetypes
+				["*"] = {
+					["("] = {
+						kind = {
+							cmp.lsp.CompletionItemKind.Function,
+							cmp.lsp.CompletionItemKind.Method,
+						},
+						handler = handlers["*"],
+					},
+				},
+				-- Disable for tex
+				tex = false,
+			},
+		})
+	)
 end
 
-function config.bqf()
-	vim.cmd([[
-    hi BqfPreviewBorder guifg=#F2CDCD ctermfg=71
-    hi link BqfPreviewRange Search
-]])
+function config.mason_install()
+	require("mason-tool-installer").setup({
 
-	require("bqf").setup({
-		auto_enable = true,
-		auto_resize_height = true, -- highly recommended enable
-		preview = {
-			win_height = 12,
-			win_vheight = 12,
-			delay_syntax = 80,
-			border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
-			should_preview_cb = function(bufnr, qwinid)
-				local ret = true
-				local bufname = vim.api.nvim_buf_get_name(bufnr)
-				local fsize = vim.fn.getfsize(bufname)
-				if fsize > 100 * 1024 then
-					-- skip file size greater than 100k
-					ret = false
-				elseif bufname:match("^fugitive://") then
-					-- skip fugitive buffer
-					ret = false
-				end
-				return ret
-			end,
+		-- a list of all tools you want to ensure are installed upon
+		-- start; they should be the names Mason uses for each tool
+		ensure_installed = {
+			-- you can turn off/on auto_update per tool
+			"editorconfig-checker",
+
+			"stylua",
+
+			"black",
+
+			"prettier",
+
+			"shellcheck",
+			"shfmt",
+
+			"vint",
 		},
-		-- make `drop` and `tab drop` to become preferred
-		func_map = {
-			drop = "o",
-			openc = "O",
-			split = "<C-s>",
-			tabdrop = "<C-t>",
-			tabc = "",
-			ptogglemode = "z,",
-		},
-		filter = {
-			fzf = {
-				action_for = { ["ctrl-s"] = "split", ["ctrl-t"] = "tab drop" },
-				extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
-			},
-		},
+
+		-- if set to true this will check each tool for updates. If updates
+		-- are available the tool will be updated.
+		-- Default: false
+		auto_update = false,
+
+		-- automatically install / update on startup. If set to false nothing
+		-- will happen on startup. You can use `:MasonToolsUpdate` to install
+		-- tools and check for updates.
+		-- Default: true
+		run_on_start = true,
 	})
 end
 

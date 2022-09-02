@@ -10,27 +10,18 @@ completion["creativenull/efmls-configs-nvim"] = {
 	opt = false,
 	requires = "neovim/nvim-lspconfig",
 }
-completion["williamboman/nvim-lsp-installer"] = {
-	opt = false,
+completion["williamboman/mason.nvim"] = {
+	requires = {
+		{
+			"williamboman/mason-lspconfig.nvim",
+		},
+		{ "WhoIsSethDaniel/mason-tool-installer.nvim", config = conf.mason_install },
+	},
 }
-completion["kevinhwang91/nvim-bqf"] = {
-	opt = true,
-	ft = "qf",
-	config = conf.bqf,
-}
-completion["tami5/lspsaga.nvim"] = {
-	opt = true,
-	after = "nvim-lspconfig",
-}
-completion["stevearc/aerial.nvim"] = {
+completion["glepnir/lspsaga.nvim"] = {
 	opt = true,
 	after = "nvim-lspconfig",
-	config = conf.aerial,
-}
-completion["kosayoda/nvim-lightbulb"] = {
-	opt = true,
-	after = "nvim-lspconfig",
-	config = conf.lightbulb,
+	config = conf.lspsaga,
 }
 completion["ray-x/lsp_signature.nvim"] = { opt = true, after = "nvim-lspconfig" }
 completion["hrsh7th/nvim-cmp"] = {
@@ -47,11 +38,11 @@ completion["hrsh7th/nvim-cmp"] = {
 		{ "hrsh7th/cmp-buffer", after = "cmp-spell" },
 		{ "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
 		-- {
-		--     'tzachar/cmp-tabnine',
-		--     run = './install.sh',
-		--     after = 'cmp-spell',
-		--     config = conf.tabnine
-		-- }
+		-- 	"tzachar/cmp-tabnine",
+		-- 	run = "./install.sh",
+		-- 	after = "cmp-latex-symbols",
+		-- 	config = conf.tabnine,
+		-- },
 	},
 }
 completion["L3MON4D3/LuaSnip"] = {

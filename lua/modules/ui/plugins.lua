@@ -16,13 +16,13 @@ ui["rcarriga/nvim-notify"] = {
 }
 ui["hoob3rt/lualine.nvim"] = {
 	opt = true,
-	after = "nvim-gps",
+	after = { "nvim-navic" },
 	config = conf.lualine,
 }
-ui["SmiteshP/nvim-gps"] = {
+ui["SmiteshP/nvim-navic"] = {
 	opt = true,
-	after = "nvim-treesitter",
-	config = conf.nvim_gps,
+	after = "nvim-lspconfig",
+	config = conf.nvim_navic,
 }
 ui["goolord/alpha-nvim"] = {
 	opt = true,
@@ -36,27 +36,25 @@ ui["kyazdani42/nvim-tree.lua"] = {
 }
 ui["lewis6991/gitsigns.nvim"] = {
 	opt = true,
-	event = { "BufRead", "BufNewFile" },
+	event = { "BufReadPost", "BufNewFile" },
 	config = conf.gitsigns,
 	requires = { "nvim-lua/plenary.nvim", opt = true },
 }
 ui["lukas-reineke/indent-blankline.nvim"] = {
 	opt = true,
-	event = "BufRead",
+	event = "BufReadPost",
 	config = conf.indent_blankline,
 }
 ui["akinsho/bufferline.nvim"] = {
 	opt = true,
 	tag = "*",
-	event = "BufRead",
+	event = "BufReadPost",
 	config = conf.nvim_bufferline,
 }
 ui["dstein64/nvim-scrollview"] = {
 	opt = true,
-	event = { "BufRead" },
-	config = function()
-		require("scrollview").setup({})
-	end,
+	event = { "BufReadPost" },
+	config = conf.scrollview,
 }
 
 ui['kevinhwang91/rnvimr'] = {
@@ -70,10 +68,8 @@ ui["mbbill/undotree"] = {
 }
 ui["j-hui/fidget.nvim"] = {
 	opt = true,
-	event = "BufRead",
-	config = function()
-		require("fidget").setup({})
-	end,
+	event = "BufReadPost",
+	config = conf.fidget,
 }
 
 return ui

@@ -16,46 +16,28 @@ editor["ur4ltz/surround.nvim"] = {
 }
 editor["junegunn/vim-easy-align"] = { opt = true, cmd = "EasyAlign" }
 editor["RRethy/vim-illuminate"] = {
-	event = "BufRead",
-	config = function()
-		vim.g.Illuminate_highlightUnderCursor = 0
-		vim.g.Illuminate_ftblacklist = {
-			"help",
-			"dashboard",
-			"alpha",
-			"packer",
-			"norg",
-			"DoomInfo",
-			"NvimTree",
-			"Outline",
-			"toggleterm",
-		}
-	end,
+	opt = true,
+	event = "BufReadPost",
+	config = conf.illuminate,
 }
 editor["terrortylor/nvim-comment"] = {
 	opt = false,
-	config = function()
-		require("nvim_comment").setup({
-			hook = function()
-				require("ts_context_commentstring.internal").update_commentstring()
-			end,
-		})
-	end,
+	config = conf.nvim_comment,
 }
 editor["nvim-treesitter/nvim-treesitter"] = {
 	opt = true,
 	run = ":TSUpdate",
-	event = "BufRead",
+	event = "BufReadPost",
 	config = conf.nvim_treesitter,
 }
 editor["nvim-treesitter/nvim-treesitter-textobjects"] = {
 	opt = true,
 	after = "nvim-treesitter",
+	commit = "761e283a8e3ab80ee5ec8daf4f19d92d23ee37e4",
 }
 editor["p00f/nvim-ts-rainbow"] = {
 	opt = true,
 	after = "nvim-treesitter",
-	event = "BufRead",
 }
 editor["JoosepAlviste/nvim-ts-context-commentstring"] = {
 	opt = true,
@@ -75,7 +57,7 @@ editor["andymass/vim-matchup"] = {
 	after = "nvim-treesitter",
 	config = conf.matchup,
 }
-editor["rhysd/accelerated-jk"] = { opt = true, event = "BufWinEnter" }
+editor["rainbowhxch/accelerated-jk.nvim"] = { opt = true, event = "BufWinEnter", config = conf.accelerated_jk }
 editor["hrsh7th/vim-eft"] = { opt = true, event = "BufReadPost" }
 editor["romainl/vim-cool"] = {
 	opt = true,
@@ -83,27 +65,23 @@ editor["romainl/vim-cool"] = {
 }
 editor["phaazon/hop.nvim"] = {
 	opt = true,
-	branch = "v1",
+	branch = "v2",
 	event = "BufReadPost",
-	config = function()
-		require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-	end,
+	config = conf.hop,
 }
 editor["karb94/neoscroll.nvim"] = {
 	opt = true,
 	event = "BufReadPost",
 	config = conf.neoscroll,
 }
-editor["vimlab/split-term.vim"] = { opt = true, cmd = { "Term", "VTerm" } }
 editor["akinsho/toggleterm.nvim"] = {
 	opt = true,
-	event = "BufRead",
+	event = "UIEnter",
 	config = conf.toggleterm,
 }
-editor["numtostr/FTerm.nvim"] = { opt = true, event = "BufRead" }
 editor["norcalli/nvim-colorizer.lua"] = {
 	opt = true,
-	event = "BufRead",
+	event = "BufReadPost",
 	config = conf.nvim_colorizer,
 }
 editor["rmagatti/auto-session"] = {
@@ -111,20 +89,31 @@ editor["rmagatti/auto-session"] = {
 	cmd = { "SaveSession", "RestoreSession", "DeleteSession" },
 	config = conf.auto_session,
 }
-editor["jdhao/better-escape.vim"] = { opt = true, event = "InsertEnter" }
-editor["rcarriga/nvim-dap-ui"] = {
-	opt = false,
-	config = conf.dapui,
-	requires = {
-		{ "mfussenegger/nvim-dap", config = conf.dap },
-		{
-			"Pocco81/dap-buddy.nvim",
-			opt = true,
-			cmd = { "DIInstall", "DIUninstall", "DIList" },
-			commit = "24923c3819a450a772bb8f675926d530e829665f",
-			config = conf.dapinstall,
-		},
+editor["max397574/better-escape.nvim"] = {
+	opt = true,
+	event = "BufReadPost",
+	config = conf.better_escape,
+}
+editor["mfussenegger/nvim-dap"] = {
+	opt = true,
+	cmd = {
+		"DapSetLogLevel",
+		"DapShowLog",
+		"DapContinue",
+		"DapToggleBreakpoint",
+		"DapToggleRepl",
+		"DapStepOver",
+		"DapStepInto",
+		"DapStepOut",
+		"DapTerminate",
 	},
+	module = "dap",
+	config = conf.dap,
+}
+editor["rcarriga/nvim-dap-ui"] = {
+	opt = true,
+	after = "nvim-dap", -- Need to call setup after dap has been initialized.
+	config = conf.dapui,
 }
 editor["tpope/vim-fugitive"] = { opt = true, cmd = { "Git", "G" } }
 editor["famiu/bufdelete.nvim"] = {
@@ -148,9 +137,13 @@ editor["sindrets/diffview.nvim"] = {
 	cmd = { "DiffviewOpen" },
 }
 editor["brglng/vim-im-select"] = {
-	opt = false,
+	opt = true,
 	event = "BufReadPost",
 	config = conf.imselect,
+}
+editor["luukvbaal/stabilize.nvim"] = {
+	opt = true,
+	event = "BufReadPost",
 }
 
 return editor
