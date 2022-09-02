@@ -5,8 +5,8 @@ local map_cmd = bind.map_cmd
 require("keymap.config")
 
 local plug_map = {
-    --whichkey ( press ',' first to start manually and this key to view all bind)
-    ["n|<leader><cr>"] = map_cr("WhichKey"):with_noremap():with_silent(),
+	--whichkey ( press ',' first to start manually and this key to view all bind)
+	["n|<leader><cr>"] = map_cr("WhichKey"):with_noremap():with_silent(),
 	-- Bufferline
 	["n|gb"] = map_cr("BufferLinePick"):with_noremap():with_silent(),
 	["n|<A-j>"] = map_cr("BufferLineCycleNext"):with_noremap():with_silent(),
@@ -37,7 +37,7 @@ local plug_map = {
 	["n|g]"] = map_cr("Lspsaga diagnostic_jump_prev"):with_noremap():with_silent(),
 	["n|gs"] = map_cr("Lspsaga signature_help"):with_noremap():with_silent(),
 	["n|gn"] = map_cr("Lspsaga rename"):with_noremap():with_silent(),
-	["n|gh"] = map_cr('Lspsaga lsp_finder'):with_noremap():with_silent(),
+	["n|gh"] = map_cr("Lspsaga lsp_finder"):with_noremap():with_silent(),
 	["n|M"] = map_cr("Lspsaga hover_doc"):with_noremap():with_silent(),
 	["n|<C-Up>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(-1)"):with_noremap():with_silent(),
 	["n|<C-Down>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(1)"):with_noremap():with_silent(),
@@ -45,16 +45,14 @@ local plug_map = {
 	["v|<leader>ca"] = map_cu("Lspsaga range_code_action"):with_noremap():with_silent(),
 	["n|gd"] = map_cr("Lspsaga preview_definition"):with_noremap():with_silent(),
 	-- ["n|gd"] = map_cr(":lua vim.lsp.buf.definition()"):with_noremap():with_silent(),
-    -- ["n|gD"] = map_cmd("<cmd>lua vim.lsp.buf.declaration()<CR>"):with_noremap():with_silent(),
-    ["n|gi"] = map_cmd("<cmd>lua vim.lsp.buf.implementation()<CR>"):with_noremap()
-        :with_silent(),
-    ["n|gr"] = map_cmd("<cmd>lua vim.lsp.buf.references()<CR>"):with_noremap()
-        :with_silent(),
+	-- ["n|gD"] = map_cmd("<cmd>lua vim.lsp.buf.declaration()<CR>"):with_noremap():with_silent(),
+	["n|gi"] = map_cmd("<cmd>lua vim.lsp.buf.implementation()<CR>"):with_noremap():with_silent(),
+	["n|gr"] = map_cmd("<cmd>lua vim.lsp.buf.references()<CR>"):with_noremap():with_silent(),
 	-- ["n|<A-d>"] = map_cu('lua require("FTerm").toggle()'):with_noremap():with_silent(),
 	-- ["t|<A-d>"] = map_cu([[<C-\><C-n><CMD>lua require("FTerm").toggle()]]):with_noremap():with_silent(),
 	-- ["t|<A-S-d>"] = map_cu([[<C-\><C-n><CMD>lua require("FTerm").exit()]]):with_noremap():with_silent(),
-    -- Ranger with rnvimr
-    ["n|<C-o>"] = map_cr('RnvimrToggle'):with_noremap():with_silent(),
+	-- Ranger with rnvimr
+	["n|<C-o>"] = map_cr("RnvimrToggle"):with_noremap():with_silent(),
 	["n|gD"] = map_cr("lua vim.lsp.buf.definition()"):with_noremap():with_silent(),
 	-- ["n|gps"] = map_cr("G push"):with_noremap():with_silent(),
 	-- ["n|gpl"] = map_cr("G pull"):with_noremap():with_silent(),
@@ -109,9 +107,9 @@ local plug_map = {
 	-- ["n|T"] = map_cmd("v:lua.enhance_ft_move('T')"):with_expr(),
 	-- ["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
 	-- Plugin Hop
-    ["n|<leader>f"] = map_cr("HopWord"),
-    ["n|<leader>fl"] = map_cr("HopLine"),
-    ["n|<leader>fc"] = map_cr("HopChar1"),
+	["n|<leader>f"] = map_cr("HopWord"),
+	["n|<leader>fl"] = map_cr("HopLine"),
+	["n|<leader>fc"] = map_cr("HopChar1"),
 	-- Plugin EasyAlign
 	["n|ga"] = map_cmd("v:lua.enhance_align('nga')"):with_expr(),
 	["x|ga"] = map_cmd("v:lua.enhance_align('xga')"):with_expr(),
@@ -144,56 +142,45 @@ local plug_map = {
 	["o|m"] = map_cu([[lua require('tsht').nodes()]]):with_silent(),
 	["c|Q"] = map_cu([[%SnipRun]]):with_silent(),
 	-- Plugin Tabout
-	-- ["i|<A-l>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
-	-- ["i|<A-h>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
+	["i|<c-j>"] = map_cmd([[<Plug>(TaboutMulti)]]):with_silent(),
+	["i|<c-k>"] = map_cmd([[<Plug>(TaboutBackMulti)]]):with_silent(),
 	-- Plugin Diffview
 	["n|<leader>D"] = map_cr("DiffviewOpen"):with_silent():with_noremap(),
 	["n|<leader><leader>D"] = map_cr("DiffviewClose"):with_silent():with_noremap(),
 }
 
 function mapCompileRun()
-    vim.api.nvim_set_keymap(
-        'n',
-        'r',
-        ':lua compileRun()<CR>a',
-        { noremap = false, silent = false }
-    );
-    vim.api.nvim_set_keymap(
-        'n',
-        '<leader>r',
-        ':lua compileRun()<CR>',
-        { noremap = false, silent = false }
-    );
+	vim.api.nvim_set_keymap("n", "r", ":lua compileRun()<CR>a", { noremap = false, silent = false })
+	vim.api.nvim_set_keymap("n", "<leader>r", ":lua compileRun()<CR>", { noremap = false, silent = false })
 end
 
 function compileRun()
-    vim.api.nvim_command('set splitbelow')
-    vim.api.nvim_command(':sp')
-   local filetype = vim.bo.filetype
-    if filetype == 'python' then
-        print("this is python")
-        vim.api.nvim_command(':w | :term python3 %')
-    elseif filetype == 'go' then
-        print("this is go")
-        vim.api.nvim_command(':w | :term go run %')
-    elseif filetype== 'lua' then
-        print("this is lua")
-    elseif filetype== 'javascript' then
-        print("this is js")
-        vim.api.nvim_command(':w | :term node --trace-warnings %')
-    elseif filetype== 'sh' then
-        print("this is sh")
-        vim.api.nvim_command(':w | :term bash %')
-    elseif filetype== 'html' then
-        print("this is html")
-        vim.api.nvim_command(':w | :term firefox %')
-    elseif filetype== 'java' then
-        print("this is html")
-        vim.api.nvim_command(':w | :term javac % | java %')
-    else
-        return "nothing"
-    end
-    
+	vim.api.nvim_command("set splitbelow")
+	vim.api.nvim_command(":sp")
+	local filetype = vim.bo.filetype
+	if filetype == "python" then
+		print("this is python")
+		vim.api.nvim_command(":w | :term python3 %")
+	elseif filetype == "go" then
+		print("this is go")
+		vim.api.nvim_command(":w | :term go run %")
+	elseif filetype == "lua" then
+		print("this is lua")
+	elseif filetype == "javascript" then
+		print("this is js")
+		vim.api.nvim_command(":w | :term node --trace-warnings %")
+	elseif filetype == "sh" then
+		print("this is sh")
+		vim.api.nvim_command(":w | :term bash %")
+	elseif filetype == "html" then
+		print("this is html")
+		vim.api.nvim_command(":w | :term firefox %")
+	elseif filetype == "java" then
+		print("this is html")
+		vim.api.nvim_command(":w | :term javac % | java %")
+	else
+		return "nothing"
+	end
 end
 
 mapCompileRun()

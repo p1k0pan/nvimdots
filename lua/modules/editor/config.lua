@@ -64,7 +64,7 @@ function config.nvim_treesitter()
 		},
 		context_commentstring = { enable = true, enable_autocmd = false },
 		matchup = { enable = true },
-	})
+    })
 	require("nvim-treesitter.install").prefer_git = true
 	local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 	for _, p in pairs(parsers) do
@@ -426,8 +426,9 @@ function config.tabout()
 end
 
 function config.wildfire()
-    -- vim.g.wildfire_objects = {[["i'", "a'", 'i"','a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|"]]}
-    vim.g.wildfire_objects = {"i'", "a'", 'i"','a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|", "i`"}
+	-- vim.g.wildfire_objects = {[["i'", "a'", 'i"','a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|"]]}
+	vim.g.wildfire_objects =
+		{ "i'", "a'", 'i"', 'a"', "i)", "a)", "i]", "a]", "i}", "a}", "i>", "a>", "it", "at", "i|", "i`" }
 end
 
 function config.imselect()
