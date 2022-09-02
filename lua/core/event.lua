@@ -44,7 +44,7 @@ function autocmd.load_autocmds()
 			{
 				"BufEnter",
 				"*",
-				[[++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]],
+				[[if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif]],
 			},
 			-- Auto toggle fcitx5
 			-- {"InsertLeave", "* :silent", "!fcitx5-remote -c"},
@@ -79,8 +79,6 @@ function autocmd.load_autocmds()
 			{ "FileType", "alpha", "set showtabline=0" },
 			{ "FileType", "markdown", "set wrap" },
 			{ "FileType", "make", "set noexpandtab shiftwidth=8 softtabstop=0" },
-			-- Google tab style
-			{ "FileType", "c,cpp", "set expandtab tabstop=2 shiftwidth=2" },
 			{ "FileType", "dap-repl", "lua require('dap.ext.autocompl').attach()" },
 			{
 				"FileType",
