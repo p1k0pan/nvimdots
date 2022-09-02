@@ -7,7 +7,6 @@ ui["sainnhe/edge"] = { opt = false, config = conf.edge }
 ui["catppuccin/nvim"] = {
 	opt = false,
 	as = "catppuccin",
-	commit = "f079dda3dc23450d69b4bad11bfbd9af2c77f6f3",
 	config = conf.catppuccin,
 }
 ui["rcarriga/nvim-notify"] = {
@@ -57,9 +56,9 @@ ui["dstein64/nvim-scrollview"] = {
 	config = conf.scrollview,
 }
 
-ui['kevinhwang91/rnvimr'] = {
-    opt = true,
-    cmd = 'RnvimrToggle'
+ui["kevinhwang91/rnvimr"] = {
+	opt = true,
+	cmd = "RnvimrToggle",
 }
 
 ui["mbbill/undotree"] = {

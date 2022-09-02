@@ -657,31 +657,6 @@ function config.nvim_tree()
 			},
 			root_folder_modifier = ":e",
 			icons = {
-				padding = " ",
-				symlink_arrow = "  ",
-				glyphs = {
-					["default"] = "", --
-					["symlink"] = "",
-					["git"] = {
-						["unstaged"] = "",
-						["staged"] = "", --
-						["unmerged"] = "שׂ",
-						["renamed"] = "", --
-						["untracked"] = "ﲉ",
-						["deleted"] = "",
-						["ignored"] = "", --◌
-					},
-					["folder"] = {
-						-- ['arrow_open'] = "",
-						-- ['arrow_closed'] = "",
-						["arrow_open"] = "",
-						["arrow_closed"] = "",
-						["default"] = "",
-						["open"] = "",
-						["empty"] = "",
-						["empty_open"] = "",
-						["symlink"] = "",
-						["symlink_open"] = "",
 				webdev_colors = true,
 				git_placement = "before",
 				show = {
