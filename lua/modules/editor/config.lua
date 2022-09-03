@@ -64,12 +64,17 @@ function config.nvim_treesitter()
 		},
 		context_commentstring = { enable = true, enable_autocmd = false },
 		matchup = { enable = true },
-    })
+	})
 	require("nvim-treesitter.install").prefer_git = true
 	local parsers = require("nvim-treesitter.parsers").get_parser_configs()
 	for _, p in pairs(parsers) do
 		p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
 	end
+	require("ufo").setup({
+		provider_selector = function(bufnr, filetype, buftype)
+			return { "treesitter", "indent" }
+		end,
+	})
 end
 
 function config.illuminate()
@@ -471,6 +476,15 @@ function config.accelerated_jk()
 		-- when 'enable_deceleration = true', 'deceleration_table = { {200, 3}, {300, 7}, {450, 11}, {600, 15}, {750, 21}, {900, 9999} }'
 		deceleration_table = { { 150, 9999 } },
 	})
+end
+
+function config.ufo()
+	vim.o.foldcolumn = "1"
+	vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+	vim.o.foldlevelstart = 99
+	vim.o.foldenable = true
+	vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+	vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
 end
 
 return config

@@ -1,18 +1,18 @@
 local editor = {}
 local conf = require("modules.editor.config")
 
-editor['mg979/vim-visual-multi'] = {
-	opt = false
+editor["mg979/vim-visual-multi"] = {
+	opt = false,
 }
-editor['gcmt/wildfire.vim'] = {
-    opt = false,
-    config = conf.wildfire
+editor["gcmt/wildfire.vim"] = {
+	opt = false,
+	config = conf.wildfire,
 }
 editor["ur4ltz/surround.nvim"] = {
-    opt = false,
-    config = function()
-        require"surround".setup {mappings_style = "surround"}
-    end
+	opt = false,
+	config = function()
+		require("surround").setup({ mappings_style = "surround" })
+	end,
 }
 editor["junegunn/vim-easy-align"] = { opt = true, cmd = "EasyAlign" }
 editor["RRethy/vim-illuminate"] = {
@@ -144,6 +144,11 @@ editor["brglng/vim-im-select"] = {
 editor["luukvbaal/stabilize.nvim"] = {
 	opt = true,
 	event = "BufReadPost",
+}
+editor["kevinhwang91/nvim-ufo"] = {
+	opt = false,
+	requires = "kevinhwang91/promise-async",
+	config = conf.ufo,
 }
 
 return editor
