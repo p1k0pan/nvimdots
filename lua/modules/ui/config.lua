@@ -249,6 +249,7 @@ function config.catppuccin()
 			lightspeed = false,
 			ts_rainbow = true,
 			hop = true,
+			illuminate = true,
 			cmp = true,
 			dap = { enabled = true, enable_ui = true },
 			notify = true,
@@ -263,6 +264,7 @@ function config.catppuccin()
 			beacon = false,
 			navic = { enabled = true, custom_bg = "NONE" },
 			overseer = false,
+			fidget = true,
 		},
 		color_overrides = {
 			mocha = {
@@ -314,14 +316,9 @@ function config.catppuccin()
 				LspDiagnosticsVirtualTextHint = { fg = cp.rosewater },
 				LspDiagnosticsUnderlineHint = { sp = cp.rosewater },
 
-				-- For Ts-Rainbow
-				rainbowcol1 = { bg = cp.none },
-				rainbowcol2 = { bg = cp.none },
-				rainbowcol3 = { bg = cp.none },
-				rainbowcol4 = { bg = cp.none },
-				rainbowcol5 = { bg = cp.none },
-				rainbowcol6 = { bg = cp.none },
-				rainbowcol7 = { bg = cp.none },
+				-- For fidget.
+				FidgetTask = { bg = cp.none, fg = cp.surface2 },
+				FidgetTitle = { fg = cp.blue, style = { "bold" } },
 
 				-- For treesitter.
 				TSField = { fg = cp.rosewater },
@@ -523,7 +520,7 @@ function config.lualine()
 			theme = "catppuccin",
 			disabled_filetypes = {},
 			component_separators = "|",
-			section_separators = { left = "", right = "" },
+			section_separators = { left = "", right = "" },
 		},
 		sections = {
 			lualine_a = { "mode" },
@@ -619,7 +616,6 @@ function config.nvim_tree()
 			adaptive_size = false,
 			centralize_selection = false,
 			width = 30,
-			height = 30,
 			side = "left",
 			preserve_window_proportions = false,
 			number = false,
@@ -846,20 +842,6 @@ function config.nvim_bufferline()
 				styles = { "italic", "bold" },
 				custom = {
 					mocha = {
-						-- Warnings
-						warning = { fg = cp.yellow },
-						warning_visible = { fg = cp.yellow },
-						warning_selected = { fg = cp.yellow },
-						warning_diagnostic = { fg = cp.yellow },
-						warning_diagnostic_visible = { fg = cp.yellow },
-						warning_diagnostic_selected = { fg = cp.yellow },
-						-- Infos
-						info = { fg = cp.sky },
-						info_visible = { fg = cp.sky },
-						info_selected = { fg = cp.sky },
-						info_diagnostic = { fg = cp.sky },
-						info_diagnostic_visible = { fg = cp.sky },
-						info_diagnostic_selected = { fg = cp.sky },
 						-- Hint
 						hint = { fg = cp.rosewater },
 						hint_visible = { fg = cp.rosewater },
@@ -1004,7 +986,9 @@ function config.scrollview()
 end
 
 function config.fidget()
-	require("fidget").setup({})
+	require("fidget").setup({
+		window = { blend = 0 },
+	})
 end
 
 return config
