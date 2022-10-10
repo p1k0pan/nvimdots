@@ -33,7 +33,6 @@ editor["nvim-treesitter/nvim-treesitter"] = {
 editor["nvim-treesitter/nvim-treesitter-textobjects"] = {
 	opt = true,
 	after = "nvim-treesitter",
-	commit = "761e283a8e3ab80ee5ec8daf4f19d92d23ee37e4",
 }
 editor["p00f/nvim-ts-rainbow"] = {
 	opt = true,
@@ -55,7 +54,6 @@ editor["windwp/nvim-ts-autotag"] = {
 editor["andymass/vim-matchup"] = {
 	opt = true,
 	after = "nvim-treesitter",
-	config = conf.matchup,
 }
 editor["rainbowhxch/accelerated-jk.nvim"] = { opt = true, event = "BufWinEnter", config = conf.accelerated_jk }
 editor["hrsh7th/vim-eft"] = { opt = true, event = "BufReadPost" }
@@ -136,11 +134,6 @@ editor["sindrets/diffview.nvim"] = {
 	opt = true,
 	cmd = { "DiffviewOpen" },
 }
-editor["brglng/vim-im-select"] = {
-	opt = true,
-	event = "BufReadPost",
-	config = conf.imselect,
-}
 editor["luukvbaal/stabilize.nvim"] = {
 	opt = true,
 	event = "BufReadPost",
@@ -150,5 +143,12 @@ editor["kevinhwang91/nvim-ufo"] = {
 	requires = "kevinhwang91/promise-async",
 	config = conf.ufo,
 }
+
+-- only for fcitx5 user who uses non-English language during coding
+-- editor["brglng/vim-im-select"] = {
+-- 	opt = true,
+-- 	event = "BufReadPost",
+-- 	config = conf.imselect,
+-- }
 
 return editor

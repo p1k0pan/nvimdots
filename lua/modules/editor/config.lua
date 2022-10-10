@@ -78,15 +78,6 @@ function config.nvim_treesitter()
 end
 
 function config.illuminate()
-	-- Use background for "Visual" as highlight for words. Change this behavior here!
-	if vim.api.nvim_get_hl_by_name("Visual", true).background then
-		local illuminate_bg = string.format("#%06x", vim.api.nvim_get_hl_by_name("Visual", true).background)
-
-		vim.api.nvim_set_hl(0, "IlluminatedWordText", { bg = illuminate_bg })
-		vim.api.nvim_set_hl(0, "IlluminatedWordRead", { bg = illuminate_bg })
-		vim.api.nvim_set_hl(0, "IlluminatedWordWrite", { bg = illuminate_bg })
-	end
-
 	require("illuminate").configure({
 		providers = {
 			"lsp",
@@ -120,10 +111,6 @@ end
 
 function config.hop()
 	require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
-end
-
-function config.matchup()
-	vim.cmd([[let g:matchup_matchparen_offscreen = {'method': 'popup'}]])
 end
 
 function config.autotag()
@@ -363,7 +350,7 @@ function config.dap()
 
 	dap.adapters.python = {
 		type = "executable",
-		command = os.getenv("HOME") .. "/.local/share/nvim/dapinstall/python/bin/python",
+		command = "/usr/bin/python",
 		args = { "-m", "debugpy.adapter" },
 	}
 	dap.configurations.python = {

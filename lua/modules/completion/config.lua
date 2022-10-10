@@ -41,8 +41,7 @@ function config.lspsaga()
 
 	local colors = get_palette()
 
-	local saga = require("lspsaga")
-	saga.init_lsp_saga({
+	require("lspsaga").init_lsp_saga({
 		diagnostic_header = { " ", " ", "  ", " " },
 		custom_kind = {
 			File = { " ", colors.rosewater },
@@ -85,6 +84,7 @@ function config.cmp()
 	local t = function(str)
 		return vim.api.nvim_replace_termcodes(str, true, true, true)
 	end
+
 	local has_words_before = function()
 		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -105,24 +105,32 @@ function config.cmp()
 
 	local cmp_window = require("cmp.utils.window")
 
-	function cmp_window:has_scrollbar()
-		return false
+	cmp_window.info_ = cmp_window.info
+	cmp_window.info = function(self)
+		local info = self:info_()
+		info.scrollable = false
+		return info
 	end
 
 	local compare = require("cmp.config.compare")
-
+	local lspkind = require("lspkind")
 	local cmp = require("cmp")
+
 	cmp.setup({
 		window = {
 			completion = {
 				border = border("CmpBorder"),
+				winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
 			},
 			documentation = {
 				border = border("CmpDocBorder"),
 			},
 		},
 		sorting = {
+			priority_weight = 2,
 			comparators = {
+				require("copilot_cmp.comparators").prioritize,
+				require("copilot_cmp.comparators").score,
 				-- require("cmp_tabnine.compare"),
 				compare.offset,
 				compare.exact,
@@ -135,51 +143,12 @@ function config.cmp()
 			},
 		},
 		formatting = {
-			format = function(entry, vim_item)
-				local lspkind_icons = {
-					Text = "",
-					Method = "",
-					Function = "",
-					Constructor = "",
-					Field = "",
-					Variable = "",
-					Class = "ﴯ",
-					Interface = "",
-					Module = "",
-					Property = "ﰠ",
-					Unit = "",
-					Value = "",
-					Enum = "",
-					Keyword = "",
-					Snippet = "",
-					Color = "",
-					File = "",
-					Reference = "",
-					Folder = "",
-					EnumMember = "",
-					Constant = "",
-					Struct = "",
-					Event = "",
-					Operator = "",
-					TypeParameter = "",
-				}
-				-- load lspkind icons
-				vim_item.kind = string.format("%s %s", lspkind_icons[vim_item.kind], vim_item.kind)
-
-				vim_item.menu = ({
-					-- cmp_tabnine = "[TN]",
-					buffer = "[BUF]",
-					orgmode = "[ORG]",
-					nvim_lsp = "[LSP]",
-					nvim_lua = "[LUA]",
-					path = "[PATH]",
-					tmux = "[TMUX]",
-					luasnip = "[SNIP]",
-					spell = "[SPELL]",
-				})[entry.source.name]
-
-				return vim_item
-			end,
+			format = lspkind.cmp_format({
+				mode = "symbol_text",
+				maxwidth = 50,
+				ellipsis_char = "...",
+				symbol_map = { Copilot = "" },
+			}),
 		},
 		-- You can set mappings if you want
 		mapping = cmp.mapping.preset.insert({
@@ -192,6 +161,8 @@ function config.cmp()
 			["<Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_next_item()
+				elseif require("luasnip").expand_or_jumpable() then
+					vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
 				elseif has_words_before() then
 					cmp.complete()
 				else
@@ -201,24 +172,12 @@ function config.cmp()
 			["<S-Tab>"] = cmp.mapping(function(fallback)
 				if cmp.visible() then
 					cmp.select_prev_item()
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
-			["<C-h>"] = function(fallback)
-				if require("luasnip").jumpable(-1) then
+				elseif require("luasnip").jumpable(-1) then
 					vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
 				else
 					fallback()
 				end
-			end,
-			["<C-l>"] = function(fallback)
-				if require("luasnip").expand_or_jumpable() then
-					vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
-				else
-					fallback()
-				end
-			end,
+			end, { "i", "s" }),
 		}),
 		snippet = {
 			expand = function(args)
@@ -236,6 +195,7 @@ function config.cmp()
 			{ name = "orgmode" },
 			{ name = "buffer" },
 			{ name = "latex_symbols" },
+			{ name = "copilot" },
 			-- { name = "cmp_tabnine" },
 		},
 	})
@@ -293,7 +253,7 @@ function config.mason_install()
 		-- start; they should be the names Mason uses for each tool
 		ensure_installed = {
 			-- you can turn off/on auto_update per tool
-			"editorconfig-checker",
+			-- "editorconfig-checker",
 
 			"stylua",
 
@@ -304,7 +264,7 @@ function config.mason_install()
 			"shellcheck",
 			"shfmt",
 
-			"vint",
+			-- "vint",
 		},
 
 		-- if set to true this will check each tool for updates. If updates
