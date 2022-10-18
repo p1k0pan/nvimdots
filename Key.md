@@ -59,3 +59,14 @@
 | find project                        | `<leader>fp`            |
 | add project                         | `<leader>fp`then`<C-A>` |
 | delete project                      | `<leader>fp`then`<C-D>` |
+
+| MdTable    | Key                                   |
+| ---------- | ------------------------------------- |
+| <Leader>td | Delete the current column             |
+| <Leader>tc | Add column to the right of the cursor |
+| <Leader>tf | Format the table                      |
+| <Leader>tR | Add row above the current line        |
+| <Leader>tr | Add row below the current line        |
+| <Leader>tj | Align column to the left              |
+| <Leader>tk | Center column                         |
+| <Leader>tl | Align column to the right             |

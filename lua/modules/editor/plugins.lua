@@ -1,6 +1,9 @@
 local editor = {}
 local conf = require("modules.editor.config")
 
+editor["allen-mack/nvim-table-md"] = {
+	opt = true,
+}
 editor["mg979/vim-visual-multi"] = {
 	opt = false,
 }

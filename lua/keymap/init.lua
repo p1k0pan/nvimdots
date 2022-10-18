@@ -95,6 +95,13 @@ local plug_map = {
 	["n|<Leader>fw"] = map_cu("Telescope live_grep"):with_noremap():with_silent(),
 	["n|<Leader>fg"] = map_cu("Telescope git_files"):with_noremap():with_silent(),
 	["n|<Leader>fz"] = map_cu("Telescope zoxide list"):with_noremap():with_silent(),
+	-- Plugin mdtable
+	["n|<Leader>tf"] = map_cr("lua require('tablemd').format()"):with_noremap():with_silent(),
+	["n|<Leader>tc"] = map_cr("lua require('tablemd').insertColumn(false)"):with_noremap():with_silent(),
+	["n|<Leader>td"] = map_cr("lua require('tablemd').deleteColumn()"):with_noremap():with_silent(),
+	["n|<Leader>tr"] = map_cr("lua require('tablemd').insertRow(false)"):with_noremap():with_silent(),
+	["n|<Leader>tR"] = map_cr("lua require('tablemd').insertRow(true)"):with_noremap():with_silent(),
+	-- ["n|<Leader>tk"] = map_cr("lua require('tablemd').alignColumn('center')"):with_noremap():with_silent(),
 	-- Plugin accelerate-jk
 	["n|j"] = map_cmd("v:lua.enhance_jk_move('j')"):with_silent():with_expr(),
 	["n|k"] = map_cmd("v:lua.enhance_jk_move('k')"):with_silent():with_expr(),
