@@ -1,5 +1,6 @@
 local config = {}
 local sessions_dir = vim.fn.stdpath("data") .. "/sessions/"
+local use_ssh = require("core.settings").use_ssh
 
 function config.nvim_treesitter()
 	vim.api.nvim_set_option_value("foldmethod", "expr", {})
@@ -64,15 +65,17 @@ function config.nvim_treesitter()
 		rainbow = {
 			enable = true,
 			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+			max_file_lines = 2000, -- Do not enable for files with more than 2000 lines, int
 		},
 		context_commentstring = { enable = true, enable_autocmd = false },
 		matchup = { enable = true },
 	})
 	require("nvim-treesitter.install").prefer_git = true
-	local parsers = require("nvim-treesitter.parsers").get_parser_configs()
-	for _, p in pairs(parsers) do
-		p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
+	if use_ssh then
+		local parsers = require("nvim-treesitter.parsers").get_parser_configs()
+		for _, p in pairs(parsers) do
+			p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
+		end
 	end
 	require("ufo").setup({
 		provider_selector = function(bufnr, filetype, buftype)
@@ -330,7 +333,7 @@ function config.dap()
 	dap.configurations.c = dap.configurations.cpp
 	dap.configurations.rust = dap.configurations.cpp
 
-	dap.adapters.go = function(callback, config)
+	dap.adapters.go = function(callback)
 		local stdout = vim.loop.new_pipe(false)
 		local handle
 		local pid_or_err
@@ -480,7 +483,7 @@ end
 function config.better_escape()
 	require("better_escape").setup({
 		mapping = { "jk", "jj" }, -- a table with mappings to use
-		timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
+		timeout = 500, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
 		clear_empty_lines = false, -- clear line after escaping if there is only whitespace
 		keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
 		-- example(recommended)
@@ -502,13 +505,41 @@ function config.accelerated_jk()
 	})
 end
 
-function config.ufo()
-	vim.o.foldcolumn = "1"
-	vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-	vim.o.foldlevelstart = 99
-	vim.o.foldenable = true
-	vim.keymap.set("n", "zR", require("ufo").openAllFolds)
-	vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+function config.clever_f()
+	vim.api.nvim_set_hl(
+		0,
+		"CleverChar",
+		{ underline = true, bold = true, fg = "Orange", bg = "NONE", ctermfg = "Red", ctermbg = "NONE" }
+	)
+	vim.g.clever_f_mark_char_color = "CleverChar"
+	vim.g.clever_f_mark_direct_color = "CleverChar"
+	vim.g.clever_f_mark_direct = true
+	vim.g.clever_f_timeout_ms = 1500
+end
+
+function config.smartyank()
+	require("smartyank").setup({
+		highlight = {
+			enabled = false, -- highlight yanked text
+			higroup = "IncSearch", -- highlight group of yanked text
+			timeout = 2000, -- timeout for clearing the highlight
+		},
+		clipboard = {
+			enabled = true,
+		},
+		tmux = {
+			enabled = true,
+			-- remove `-w` to disable copy to host client's clipboard
+			cmd = { "tmux", "set-buffer", "-w" },
+		},
+		osc52 = {
+			enabled = true,
+			escseq = "tmux", -- use tmux escape sequence, only enable if you're using remote tmux and have issues (see #4)
+			ssh_only = true, -- false to OSC52 yank also in local sessions
+			silent = false, -- true to disable the "n chars copied" echo
+			echo_hl = "Directory", -- highlight group of the OSC52 echo message
+		},
+	})
 end
 
 return config

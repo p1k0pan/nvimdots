@@ -58,8 +58,16 @@ editor["andymass/vim-matchup"] = {
 	opt = true,
 	after = "nvim-treesitter",
 }
-editor["rainbowhxch/accelerated-jk.nvim"] = { opt = true, event = "BufWinEnter", config = conf.accelerated_jk }
-editor["hrsh7th/vim-eft"] = { opt = true, event = "BufReadPost" }
+editor["rainbowhxch/accelerated-jk.nvim"] = {
+	opt = true,
+	event = "BufWinEnter",
+	config = conf.accelerated_jk,
+}
+editor["rhysd/clever-f.vim"] = {
+	opt = true,
+	event = "BufReadPost",
+	config = conf.clever_f,
+}
 editor["romainl/vim-cool"] = {
 	opt = true,
 	event = { "CursorMoved", "InsertEnter" },
@@ -82,7 +90,7 @@ editor["akinsho/toggleterm.nvim"] = {
 }
 editor["NvChad/nvim-colorizer.lua"] = {
 	opt = true,
-	event = "BufReadPost",
+	after = "nvim-treesitter",
 	config = conf.nvim_colorizer,
 }
 editor["rmagatti/auto-session"] = {
@@ -135,16 +143,16 @@ editor["abecodes/tabout.nvim"] = {
 }
 editor["sindrets/diffview.nvim"] = {
 	opt = true,
-	cmd = { "DiffviewOpen" },
+	cmd = { "DiffviewOpen", "DiffviewClose" },
 }
 editor["luukvbaal/stabilize.nvim"] = {
 	opt = true,
 	event = "BufReadPost",
 }
-editor["kevinhwang91/nvim-ufo"] = {
-	opt = false,
-	requires = "kevinhwang91/promise-async",
-	config = conf.ufo,
+editor["ibhagwan/smartyank.nvim"] = {
+	opt = true,
+	event = "BufReadPost",
+	config = conf.smartyank,
 }
 
 -- only for fcitx5 user who uses non-English language during coding

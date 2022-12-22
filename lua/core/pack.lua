@@ -54,7 +54,7 @@ function Packer:load_packer()
 			disable_commands = true,
 			display = {
 				open_fn = function()
-					return require("packer.util").float({ border = "none" })
+					return require("packer.util").float({ border = "rounded" })
 				end,
 			},
 		})
@@ -66,7 +66,7 @@ function Packer:load_packer()
 			max_jobs = 20,
 			display = {
 				open_fn = function()
-					return require("packer.util").float({ border = "none" })
+					return require("packer.util").float({ border = "rounded" })
 				end,
 			},
 		})
@@ -87,7 +87,7 @@ function Packer:init_ensure_plugins()
 		local cmd = (
 			(
 				use_ssh and "!git clone git@github.com:wbthomason/packer.nvim.git "
-				or "!git clone https://github.com/wbthomason/packer.nvim"
+				or "!git clone https://github.com/wbthomason/packer.nvim "
 			) .. packer_dir
 		)
 		api.nvim_command(cmd)

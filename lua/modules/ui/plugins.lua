@@ -1,6 +1,11 @@
 local ui = {}
 local conf = require("modules.ui.config")
 
+ui["kevinhwang91/rnvimr"] = {
+	opt = true,
+	cmd = "RnvimrToggle",
+}
+
 ui["kyazdani42/nvim-web-devicons"] = { opt = false }
 ui["shaunsingh/nord.nvim"] = { opt = false, config = conf.nord }
 ui["sainnhe/edge"] = { opt = false, config = conf.edge }
@@ -8,6 +13,12 @@ ui["catppuccin/nvim"] = {
 	opt = false,
 	as = "catppuccin",
 	config = conf.catppuccin,
+}
+ui["zbirenbaum/neodim"] = {
+	opt = true,
+	event = "LspAttach",
+	requires = "nvim-treesitter",
+	config = conf.neodim,
 }
 ui["rcarriga/nvim-notify"] = {
 	opt = false,
@@ -25,7 +36,13 @@ ui["goolord/alpha-nvim"] = {
 }
 ui["kyazdani42/nvim-tree.lua"] = {
 	opt = true,
-	cmd = { "NvimTreeToggle" },
+	cmd = {
+		"NvimTreeToggle",
+		"NvimTreeOpen",
+		"NvimTreeFindFile",
+		"NvimTreeFindFileToggle",
+		"NvimTreeRefresh",
+	},
 	config = conf.nvim_tree,
 }
 ui["lewis6991/gitsigns.nvim"] = {
@@ -50,15 +67,6 @@ ui["dstein64/nvim-scrollview"] = {
 	config = conf.scrollview,
 }
 
-ui["kevinhwang91/rnvimr"] = {
-	opt = true,
-	cmd = "RnvimrToggle",
-}
-
-ui["mbbill/undotree"] = {
-	opt = true,
-	cmd = "UndotreeToggle",
-}
 ui["j-hui/fidget.nvim"] = {
 	opt = true,
 	event = "BufReadPost",

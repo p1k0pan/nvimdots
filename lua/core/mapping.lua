@@ -6,8 +6,7 @@ local map_cmd = bind.map_cmd
 -- default map
 local def_map = {
 	-- Vim map
-	["n|<Tab>"] = map_cr("normal zc"):with_noremap():with_silent(),
-	["n|<S-Tab>"] = map_cr("normal zo"):with_noremap():with_silent(),
+	["n|<S-Tab>"] = map_cr("normal za"):with_noremap():with_silent(),
 	["n|<C-x>k"] = map_cr("bdelete"):with_noremap():with_silent(),
 	["n|<C-s>"] = map_cu("write"):with_noremap(),
 	["n|Y"] = map_cmd("y$"),
@@ -36,7 +35,6 @@ local def_map = {
 	["n|<A-up>"] = map_cr("resize -5"):with_silent(),
 	["n|<A-down>"] = map_cr("resize +5"):with_silent(),
 	["n|<C-q>"] = map_cmd(":wq<CR>"),
-	["n|<A-q>"] = map_cmd(":Bwipeout<CR>"),
 	["n|<leader>q"] = map_cmd(":q!<CR>"),
 	["n|<leader>os"] = map_cr("setlocal spell! spelllang=en_us"),
 	["n|>"] = map_cmd(">>"),
@@ -55,6 +53,8 @@ local def_map = {
 	["n|gmm"] = map_cmd(":e ~/.config/nvim/lua/core/mapping.lua<CR>"),
 	["n|gmi"] = map_cmd(":e ~/.config/nvim/lua/keymap/init.lua<CR>"),
 	["n|<leader>sw"] = map_cr("set wrap"),
+	["n|<A-S-q>"] = map_cmd(":q!<CR>"),
+	["n|<leader>o"] = map_cr("setlocal spell! spelllang=en_us"),
 	-- Insert
 	["i|<A-h>"] = map_cmd("<Left>"):with_noremap(),
 	["i|<A-l>"] = map_cmd("<Right>"):with_noremap(),
