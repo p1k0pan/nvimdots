@@ -89,6 +89,15 @@ function config.lspsaga()
 			Parameter = { icons.kind.Parameter, colors.blue },
 			StaticMethod = { icons.kind.StaticMethod, colors.peach },
 		},
+		code_action_lightbulb = {
+			enable = false,
+			enable_in_insert = true,
+			cache_code_action = true,
+			sign = true,
+			update_time = 150,
+			sign_priority = 20,
+			virtual_text = true,
+		},
 		symbol_in_winbar = {
 			enable = true,
 			in_custom = false,
@@ -127,11 +136,10 @@ end
 
 function config.cmp()
 	local icons = {
-		kind = require("modules.ui.icons").get("kind", true),
-		type = require("modules.ui.icons").get("type", true),
-		cmp = require("modules.ui.icons").get("cmp", true),
+		kind = require("modules.ui.icons").get("kind", false),
+		type = require("modules.ui.icons").get("type", false),
+		cmp = require("modules.ui.icons").get("cmp", false),
 	}
-
 	-- vim.api.nvim_command([[packadd cmp-tabnine]])
 	local t = function(str)
 		return vim.api.nvim_replace_termcodes(str, true, true, true)
@@ -171,8 +179,9 @@ function config.cmp()
 	cmp.setup({
 		window = {
 			completion = {
-				border = border("CmpBorder"),
-				winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:None",
+				border = border("Normal"),
+				max_width = 80,
+				max_height = 20,
 			},
 			documentation = {
 				border = border("CmpDocBorder"),
@@ -195,13 +204,18 @@ function config.cmp()
 			},
 		},
 		formatting = {
-			format = lspkind.cmp_format({
-				mode = "symbol_text",
-				maxwidth = 50,
-				ellipsis_char = "...",
-				-- symbol_map = { Copilot = "" },
-				symbol_map = vim.tbl_deep_extend("force", icons.kind, icons.cmp, icons.type),
-			}),
+			fields = { "kind", "abbr", "menu" },
+			format = function(entry, vim_item)
+				local kind = lspkind.cmp_format({
+					mode = "symbol_text",
+					maxwidth = 50,
+					symbol_map = vim.tbl_deep_extend("force", icons.kind, icons.type, icons.cmp),
+				})(entry, vim_item)
+				local strings = vim.split(kind.kind, "%s", { trimempty = true })
+				kind.kind = " " .. strings[1] .. " "
+				kind.menu = "    (" .. strings[2] .. ")"
+				return kind
+			end,
 		},
 		-- You can set mappings if you want
 		mapping = cmp.mapping.preset.insert({
@@ -335,6 +349,16 @@ function config.mason_install()
 		-- Default: true
 		run_on_start = true,
 	})
+end
+
+function config.copilot()
+	vim.defer_fn(function()
+		require("copilot").setup({
+			filetypes = {
+				["dap-repl"] = false,
+			},
+		})
+	end, 100)
 end
 
 return config

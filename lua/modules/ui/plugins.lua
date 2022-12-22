@@ -10,6 +10,12 @@ ui["catppuccin/nvim"] = {
 	commit = "f079dda3dc23450d69b4bad11bfbd9af2c77f6f3",
 	config = conf.catppuccin,
 }
+ui["zbirenbaum/neodim"] = {
+	opt = true,
+	event = "LspAttach",
+	requires = "nvim-treesitter",
+	config = conf.neodim,
+}
 ui["rcarriga/nvim-notify"] = {
 	opt = false,
 	config = conf.notify,
@@ -26,7 +32,13 @@ ui["goolord/alpha-nvim"] = {
 }
 ui["kyazdani42/nvim-tree.lua"] = {
 	opt = true,
-	cmd = { "NvimTreeToggle" },
+	cmd = {
+		"NvimTreeToggle",
+		"NvimTreeOpen",
+		"NvimTreeFindFile",
+		"NvimTreeFindFileToggle",
+		"NvimTreeRefresh",
+	},
 	config = conf.nvim_tree,
 }
 ui["lewis6991/gitsigns.nvim"] = {
@@ -49,10 +61,6 @@ ui["dstein64/nvim-scrollview"] = {
 	opt = true,
 	event = { "BufReadPost" },
 	config = conf.scrollview,
-}
-ui["mbbill/undotree"] = {
-	opt = true,
-	cmd = "UndotreeToggle",
 }
 ui["j-hui/fidget.nvim"] = {
 	opt = true,
