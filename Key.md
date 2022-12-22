@@ -16,6 +16,8 @@
 | change surround char (normal) ''->"" | `cs<from><to>` |
 | change surround char (visual)        | `s<to>`        |
 | match other pair                     | `%`            |
+| to next function space               | `)`            |
+| multi selection                      | `<c-n>`        |
 
 | Code                                                             | Key          |
 | ---------------------------------------------------------------- | ------------ |
@@ -26,6 +28,7 @@
 | toggle lsp references                                            | `gR`         |
 | show signature help                                              | `gs`         |
 | show current function/variable's definition or references - open | `gh` `o`     |
+| show code outline                                                | `go`         |
 | show hover doc                                                   | `M`          |
 | show code action                                                 | `<leader>ca` |
 | next function begin                                              | `][`         |

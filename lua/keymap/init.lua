@@ -5,7 +5,6 @@ local map_cmd = bind.map_cmd
 require("keymap.config")
 
 local plug_map = {
-	--whichkey ( press ',' first to start manually and this key to view all bind)
 	["n|<leader><cr>"] = map_cr("WhichKey"):with_noremap():with_silent(),
 	-- bufdelete.nvim
 	["n|<A-q>"] = map_cmd(":Bwipeout<CR>"),
@@ -37,17 +36,12 @@ local plug_map = {
 	["n|go"] = map_cr("Lspsaga outline"):with_noremap():with_silent(),
 	["n|g["] = map_cr("Lspsaga diagnostic_jump_next"):with_noremap():with_silent(),
 	["n|g]"] = map_cr("Lspsaga diagnostic_jump_prev"):with_noremap():with_silent(),
-    -- ["n|gs"] = map_cr("Lspsaga signature_help"):with_noremap():with_silent(),
+	-- ["n|gs"] = map_cr("Lspsaga signature_help"):with_noremap():with_silent(),
 	["n|gn"] = map_cr("Lspsaga rename"):with_noremap():with_silent(),
 	["n|gh"] = map_cr("Lspsaga lsp_finder"):with_noremap():with_silent(),
 	["n|M"] = map_cr("Lspsaga hover_doc"):with_noremap():with_silent(),
 	["n|<C-Up>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(-1)"):with_noremap():with_silent(),
 	["n|<C-Down>"] = map_cr("lua require('lspsaga.action').smart_scroll_with_saga(1)"):with_noremap():with_silent(),
-	-- ["n|<leader>ca"] = map_cr("Lspsaga code_action"):with_noremap():with_silent(),
-	-- ["v|<leader>ca"] = map_cu("Lspsaga range_code_action"):with_noremap():with_silent(),
-	-- ["n|gd"] = map_cr("Lspsaga preview_definition"):with_noremap():with_silent(),
-	-- ["n|gd"] = map_cr(":lua vim.lsp.buf.definition()"):with_noremap():with_silent(),
-	-- ["n|gD"] = map_cmd("<cmd>lua vim.lsp.buf.declaration()<CR>"):with_noremap():with_silent(),
 	["n|gi"] = map_cmd("<cmd>lua vim.lsp.buf.implementation()<CR>"):with_noremap():with_silent(),
 	["n|gr"] = map_cmd("<cmd>lua vim.lsp.buf.references()<CR>"):with_noremap():with_silent(),
 	-- ["n|<A-d>"] = map_cu('lua require("FTerm").toggle()'):with_noremap():with_silent(),
@@ -121,8 +115,8 @@ local plug_map = {
 	-- ["n|t"] = map_cmd("v:lua.enhance_ft_move('t')"):with_expr(),
 	-- ["n|T"] = map_cmd("v:lua.enhance_ft_move('T')"):with_expr(),
 	-- ["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
-	["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
-	["n|,"] = map_cmd("v:lua.enhance_ft_move(',')"):with_expr(),
+	-- ["n|;"] = map_cmd("v:lua.enhance_ft_move(';')"):with_expr(),
+	-- ["n|,"] = map_cmd("v:lua.enhance_ft_move(',')"):with_expr(),
 	-- Plugin Hop
 	["n|<leader>f"] = map_cr("HopWord"),
 	["n|<leader>fl"] = map_cr("HopLine"),
@@ -165,7 +159,7 @@ local plug_map = {
 	["n|<leader>D"] = map_cr("DiffviewOpen"):with_silent():with_noremap(),
 	["n|<leader><leader>D"] = map_cr("DiffviewClose"):with_silent():with_noremap(),
 	-- Plugin Legendary
-	["n|<C-p>"] = map_cr("Legendary"):with_silent():with_noremap(),
+	["n|,"] = map_cr("Legendary"):with_silent():with_noremap(),
 }
 
 function mapCompileRun()
