@@ -77,11 +77,11 @@ function config.nvim_treesitter()
 			p.install_info.url = p.install_info.url:gsub("https://github.com/", "git@github.com:")
 		end
 	end
-	require("ufo").setup({
-		provider_selector = function(bufnr, filetype, buftype)
-			return { "treesitter", "indent" }
-		end,
-	})
+	-- require("ufo").setup({
+	-- 	provider_selector = function(bufnr, filetype, buftype)
+	-- 		return { "treesitter", "indent" }
+	-- 	end,
+	-- })
 end
 
 function config.illuminate()
