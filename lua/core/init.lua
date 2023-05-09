@@ -1,5 +1,4 @@
 local global = require("core.global")
-local vim = vim
 
 -- Create cache dir and data dirs
 local createdir = function()
@@ -63,6 +62,9 @@ local disable_distribution_plugins = function()
 	-- Disable sql omni completion.
 	vim.g.loaded_sql_completion = 1
 
+	-- Disable EditorConfig support
+	vim.g.editorconfig = 1
+
 	-- Disable remote plugins
 	-- NOTE: Disabling rplugin.vim will show error for `wilder.nvim` in :checkhealth,
 	-- NOTE:  but since it's config doesn't require python rtp, it's fine to ignore.
@@ -113,24 +115,53 @@ local clipboard_config = function()
 	end
 end
 
+local shell_config = function()
+	if global.is_windows then
+		if not (vim.fn.executable("pwsh") or vim.fn.executable("powershell")) then
+			vim.notify(
+				[[
+Failed to setup terminal config
+
+PowerShell is either not installed, missing from PATH, or not executable;
+cmd.exe will be used instead for `:!` (shell bang) and toggleterm.nvim.
+
+You're recommended to install PowerShell for better experience.]],
+				vim.log.levels.WARN,
+				{ title = "[core] Runtime error" }
+			)
+			return
+		end
+
+		local basecmd = "-NoLogo -MTA -ExecutionPolicy RemoteSigned"
+		local ctrlcmd = "-Command [console]::InputEncoding = [console]::OutputEncoding = [System.Text.Encoding]::UTF8"
+		vim.api.nvim_set_option_value("shell", vim.fn.executable("pwsh") and "pwsh" or "powershell", {})
+		vim.api.nvim_set_option_value("shellcmdflag", string.format("%s %s;", basecmd, ctrlcmd), {})
+		vim.api.nvim_set_option_value("shellredir", "-RedirectStandardOutput %s -NoNewWindow -Wait", {})
+		vim.api.nvim_set_option_value("shellpipe", "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode", {})
+		vim.api.nvim_set_option_value("shellquote", nil, {})
+		vim.api.nvim_set_option_value("shellxquote", nil, {})
+	end
+end
+
 local load_core = function()
-	local pack = require("core.pack")
 	createdir()
 	disable_distribution_plugins()
 	leader_map()
 
-	pack.ensure_plugins()
 	neovide_config()
 	clipboard_config()
+	shell_config()
 
 	require("core.options")
 	require("core.mapping")
 	require("keymap")
 	require("core.event")
-	pack.load_compile()
+	require("core.pack")
 
-	-- vim.api.nvim_command([[set background=light]])
-	vim.api.nvim_command([[colorscheme catppuccin]])
+	local colorscheme = require("core.settings").colorscheme
+	local background = require("core.settings").background
+	vim.api.nvim_command("set background=" .. background)
+	vim.api.nvim_command("colorscheme " .. colorscheme)
 end
 
 load_core()
