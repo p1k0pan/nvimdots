@@ -7,12 +7,12 @@ require("keymap.helpers")
 
 local plug_map = {
 	-- Plugin: vim-fugitive
-	["n|gps"] = map_cr("G push"):with_noremap():with_silent():with_desc("git: Push"),
-	["n|gpl"] = map_cr("G pull"):with_noremap():with_silent():with_desc("git: Pull"),
-	["n|<leader>G"] = map_cu("Git"):with_noremap():with_silent():with_desc("git: Open git-fugitive"),
+	-- ["n|gps"] = map_cr("G push"):with_noremap():with_silent():with_desc("git: Push"),
+	-- ["n|gpl"] = map_cr("G pull"):with_noremap():with_silent():with_desc("git: Pull"),
+	-- ["n|<leader>G"] = map_cu("Git"):with_noremap():with_silent():with_desc("git: Open git-fugitive"),
 
 	-- Plugin: nvim-tree
-	["n|<C-n>"] = map_cr("NvimTreeToggle"):with_noremap():with_silent():with_desc("filetree: Toggle"),
+	["n|<C-m>"] = map_cr("NvimTreeToggle"):with_noremap():with_silent():with_desc("filetree: Toggle"),
 	["n|<leader>nf"] = map_cr("NvimTreeFindFile"):with_noremap():with_silent():with_desc("filetree: Find file"),
 	["n|<leader>nr"] = map_cr("NvimTreeRefresh"):with_noremap():with_silent():with_desc("filetree: Refresh"),
 
@@ -197,6 +197,15 @@ local plug_map = {
 		:with_noremap()
 		:with_silent()
 		:with_desc("debug: Open REPL"),
+	-- Plugin mdtable
+	["n|<Leader>tf"] = map_cr("lua require('tablemd').format()"):with_noremap():with_silent(),
+	["n|<Leader>tc"] = map_cr("lua require('tablemd').insertColumn(false)"):with_noremap():with_silent(),
+	["n|<Leader>td"] = map_cr("lua require('tablemd').deleteColumn()"):with_noremap():with_silent(),
+	["n|<Leader>tr"] = map_cr("lua require('tablemd').insertRow(false)"):with_noremap():with_silent(),
+	["n|<Leader>tR"] = map_cr("lua require('tablemd').insertRow(true)"):with_noremap():with_silent(),
+
+	-- Ranger with rnvimr
+	["n|<C-o>"] = map_cr("RnvimrToggle"):with_noremap():with_silent(),
 }
 
 bind.nvim_load_mapping(plug_map)

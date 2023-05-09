@@ -1,5 +1,21 @@
 local editor = {}
 
+editor["allen-mack/nvim-table-md"] = {
+	lazy = true,
+}
+editor["mg979/vim-visual-multi"] = {
+	lazy = false,
+}
+editor["gcmt/wildfire.vim"] = {
+	lazy = false,
+	config = require("editor.wildfire"),
+}
+editor["ur4ltz/surround.nvim"] = {
+	lazy = false,
+	config = function()
+		require("surround").setup({ mappings_style = "surround" })
+	end,
+}
 editor["rainbowhxch/accelerated-jk.nvim"] = {
 	lazy = true,
 	event = "VeryLazy",

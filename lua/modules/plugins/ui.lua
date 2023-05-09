@@ -1,5 +1,9 @@
 local ui = {}
 
+ui["kevinhwang91/rnvimr"] = {
+	lazy = false,
+	cmd = "RnvimrToggle",
+}
 ui["goolord/alpha-nvim"] = {
 	lazy = true,
 	event = "BufWinEnter",
