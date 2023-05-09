@@ -3,8 +3,7 @@ local map_cr = bind.map_cr
 local map_cu = bind.map_cu
 local map_cmd = bind.map_cmd
 
--- default map
-local def_map = {
+local core_map = {
 	-- Vim map
 	["n|<S-Tab>"] = map_cr("normal za"):with_noremap():with_silent(),
 	["n|<C-x>k"] = map_cr("bdelete"):with_noremap():with_silent(),
@@ -89,4 +88,4 @@ local def_map = {
 	["v|<C-h>"] = map_cmd("<ESC>i<C-h>"),
 }
 
-bind.nvim_load_mapping(def_map)
+bind.nvim_load_mapping(core_map)
