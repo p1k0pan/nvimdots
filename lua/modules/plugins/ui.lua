@@ -1,7 +1,7 @@
 local ui = {}
 
 ui["kevinhwang91/rnvimr"] = {
-	lazy = false,
+	lazy = true,
 	cmd = "RnvimrToggle",
 }
 ui["goolord/alpha-nvim"] = {
