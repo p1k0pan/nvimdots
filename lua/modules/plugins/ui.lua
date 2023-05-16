@@ -1,8 +1,12 @@
 local ui = {}
 
-ui["kevinhwang91/rnvimr"] = {
+-- ui["kevinhwang91/rnvimr"] = {
+-- 	lazy = true,
+-- 	cmd = "RnvimrToggle",
+-- }
+ui["is0n/fm-nvim"] = {
 	lazy = true,
-	cmd = "RnvimrToggle",
+	cmd = "Ranger",
 }
 ui["goolord/alpha-nvim"] = {
 	lazy = true,

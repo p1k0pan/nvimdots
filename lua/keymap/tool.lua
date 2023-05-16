@@ -205,7 +205,8 @@ local plug_map = {
 	["n|<Leader>tR"] = map_cr("lua require('tablemd').insertRow(true)"):with_noremap():with_silent(),
 
 	-- Ranger with rnvimr
-	["n|<C-o>"] = map_cr("RnvimrToggle"):with_noremap():with_silent(),
+	["n|<C-o>"] = map_cr("Ranger"):with_noremap():with_silent(),
+	-- ["n|<C-o>"] = map_cr("RnvimrToggle"):with_noremap():with_silent(),
 }
 
 bind.nvim_load_mapping(plug_map)
