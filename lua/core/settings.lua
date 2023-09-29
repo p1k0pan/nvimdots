@@ -77,6 +77,7 @@ settings["lsp_deps"] = {
 	"jsonls",
 	"lua_ls",
 	"pylsp",
+	"jdtls",
 	-- "gopls",
 }
 
